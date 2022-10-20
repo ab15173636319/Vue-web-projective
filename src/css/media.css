@@ -1,0 +1,115 @@
+/* PC */
+@media (min-width: 960px) {
+}
+
+/* 平板 */
+@media (max-width: 960px) {
+  .transition-box {
+    height: 2000px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .top-img {
+    display: flex;
+  }
+
+  .messageplace {
+    width: 80vw;
+    height: 200px;
+    position: absolute;
+    top: 60px;
+    /* background-color: #fff; */
+  }
+
+  .messagebox {
+    width: 80vw;
+    height: 200px;
+    /* background-color: rgb(0, 8, 255); */
+  }
+
+  .userbox {
+    display: none;
+  }
+
+  .messageplace {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .search {
+    display: none;
+  }
+
+  .searchin {
+    height: 42px;
+    width: auto;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 40px;
+    left: 30px;
+    border: 1px solid #000;
+    border-radius: 10px;
+  }
+
+  .searchbtn {
+    width: 40px;
+    height: 40px;
+    border-right: none;
+    background-color: rgb(116, 114, 114);
+    border: none;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+
+  .searchinfo {
+    height: 40px;
+    width: 64vw;
+    outline: aqua;
+    border-left: none;
+    border: none;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+  .searchin.active {
+    width: 400px;
+  }
+
+  .el-pagination {
+    text-align: center;
+  }
+
+  .usernickname {
+    font-size: 10px;
+  }
+  .page .el-pager {
+    display: none;
+  }
+}
+
+/* 手机
+@media (max-width: 750px) {
+  .messageplace {
+    width: 80vw;
+    height: 200px;
+    background-color: #fff;
+  }
+
+  .messagebox {
+    width: 100vw;
+    height: 200px;
+    background-color: rgb(0, 8, 255);
+  }
+
+  .userbox {
+    display: none;
+  }
+
+  .messageplace {
+    display: flex;
+    justify-content: space-between;
+  }
+} */

@@ -1,0 +1,228 @@
+* {
+  /* overflow: hidden; */
+}
+
+.o {
+  position: fixed;
+  z-index: 10000;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pan-loading {
+  width: 180px;
+  height: 180px;
+  margin: 100px;
+}
+
+/* 食物 */
+.pan-loading .loading {
+  color: #fdd835;
+  -webkit-filter: drop-shadow(0 0 10px #fdd835);
+  filter: drop-shadow(0 0 10px #fdd835);
+  position: relative;
+  top: 10%;
+  left: 0;
+  z-index: -1;
+  width: 60%;
+  height: 45%;
+}
+
+.pan-loading .loading span {
+  position: absolute;
+  bottom: 0px;
+}
+
+.pan-loading .loading span:nth-child(1) {
+  left: 10px;
+  animation: one 2s infinite;
+}
+.pan-loading .loading span:nth-child(2) {
+  left: 30px;
+  animation: two 2s infinite;
+}
+.pan-loading .loading span:nth-child(3) {
+  left: 50px;
+  animation: three 2s infinite;
+}
+.pan-loading .loading span:nth-child(4) {
+  left: 70px;
+  animation: four 2s infinite;
+}
+
+@keyframes one {
+  0% {
+    position: absolute;
+    bottom: 0px;
+  }
+
+  12% {
+    position: absolute;
+    bottom: -5px;
+  }
+
+  50% {
+    position: absolute;
+    bottom: 50px;
+  }
+
+  100% {
+    position: absolute;
+    bottom: 0px;
+  }
+}
+@keyframes two {
+  0% {
+    position: absolute;
+    bottom: 0px;
+  }
+
+  12% {
+    position: absolute;
+    bottom: -5px;
+  }
+
+  50% {
+    position: absolute;
+    bottom: 60px;
+  }
+
+  100% {
+    position: absolute;
+    bottom: 0px;
+  }
+}
+@keyframes three {
+  0% {
+    position: absolute;
+    bottom: 0px;
+  }
+
+  12% {
+    position: absolute;
+    bottom: -5px;
+  }
+
+  50% {
+    position: absolute;
+    bottom: 50px;
+  }
+
+  100% {
+    position: absolute;
+    bottom: 0px;
+  }
+}
+@keyframes four {
+  0% {
+    position: absolute;
+    bottom: 0px;
+  }
+
+  12% {
+    position: absolute;
+    bottom: -5px;
+  }
+
+  50% {
+    position: absolute;
+    bottom: 30px;
+  }
+
+  100% {
+    position: absolute;
+    bottom: 0px;
+  }
+}
+
+/* 锅 */
+.pan-loading .pan-container {
+  display: flex;
+  width: 100%;
+  /* 设置动画 */
+  animation: pan 2s infinite;
+}
+
+/* 颠锅 */
+@keyframes pan {
+  0% {
+    transform: rotate(0deg);
+    /* 设置旋转的中心点 */
+    transform-origin: top right;
+  }
+
+  10% {
+    transform: rotate(-2deg);
+    /* 设置旋转的中心点 */
+    transform-origin: top right;
+  }
+
+  50% {
+    transform: rotate(15deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* 锅面 */
+.pan-loading .pan {
+  width: 60%;
+  height: 20px;
+  /* 背景颜色，线性渐变 */
+  background: linear-gradient(#3949ab, #5c6bc0);
+  /* 设置锅左右两侧的弧度 */
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+/* 锅把 */
+.pan-loading .handle {
+  width: 40%;
+  height: 10px;
+  /* 背景颜色，线性渐变 */
+  background: linear-gradient(#3949ab, #5c6bc0);
+  /* 设置锅把两侧的弧度 */
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+/* 炉子 */
+.pan-loading .shadow {
+  position: relative;
+  top: 15%;
+  left: 15%;
+  width: 30%;
+  height: 8px;
+  background: #d35400;
+  -webkit-filter: drop-shadow(0 0 10px #d35400);
+  filter: drop-shadow(0 0 10px #d35400);
+  border-radius: 20px;
+  /* 设置动画 */
+  animation: shadow 2s infinite;
+}
+
+/* 炉子收缩、放大 */
+@keyframes shadow {
+  0% {
+    width: 30%;
+  }
+
+  50% {
+    width: 40%;
+    left: 20px;
+  }
+
+  100% {
+    width: 30%;
+  }
+}

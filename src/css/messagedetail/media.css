@@ -1,0 +1,205 @@
+/* PC */
+@media (min-width: 960px) {
+  .messageinfo {
+    width: 60%;
+    height: 100%;
+    /* background-color: aqua; */
+    margin: 0px 0px 0px 2px;
+  }
+
+  .messagecomments {
+    width: 40%;
+    height: 100%;
+    /* background-color: palevioletred; */
+    margin: 0px 10px 0px 0px;
+  }
+
+  .commentshead {
+    display: flex;
+    justify-content: left;
+    border-bottom: 1px solid #000;
+  }
+
+  .commentshead div {
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 5px 10px;
+  }
+
+  .commentshead div:hover {
+    color: rgba(251, 114, 153);
+  }
+
+  .commentshead div.active {
+    color: rgba(251, 114, 153);
+  }
+
+  .messageimg {
+    width: 50%;
+    height: 50%;
+    border-radius: 15%;
+    border: 10px solid #000;
+  }
+  .usercontent {
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #000;
+  }
+
+  .messagecontenttitle {
+    width: 100%;
+    margin: 5px 10px;
+    word-wrap: break-word;
+  }
+
+  .praise {
+    cursor: pointer;
+  }
+
+  .praise i.active {
+    color: rgba(251, 114, 153);
+  }
+
+  .praisecontent {
+    margin-top: 10px;
+    display: flex;
+    width: 20%;
+    justify-content: space-between;
+  }
+
+  .praisecontent div {
+    /* font-size: 20px; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .praisecontent div i {
+    font-size: 24px;
+    color: gray;
+  }
+
+  .lastupdate {
+    border-top: 1px solid gray;
+    margin-top: 10px;
+    font-size: 12px;
+    color: gray;
+  }
+
+  .CommentsContaner {
+    height: 100%;
+    overflow-y: scroll;
+  }
+
+  .commentsBox {
+    margin-top: 60px;
+    width: 100%;
+    background-color: #fff;
+    margin-bottom: 10px;
+  }
+
+  .commentsBox > div {
+    display: flex;
+    width: 100%;
+  }
+
+  .comments {
+    width: 10vw;
+  }
+
+  .commentinfo {
+    width: 100%;
+    height: auto;
+    word-wrap: break-word;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .commentinfo p {
+    word-wrap: break-word;
+  }
+
+  .commentinfo img {
+    width: 50%;
+    background-size: cover;
+  }
+
+  .commentsContent .praisecontent {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+  }
+
+  .morechaozuo_bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .morechaozuo_bar i {
+    cursor: pointer;
+  }
+
+  .morechaozuo_bar div {
+    width: 0px;
+  }
+  .morechaozuo_bar div div {
+    /* opacity: 0; */
+    display: none;
+  }
+
+  .morechaozuo_bar:hover div {
+    width: 100px;
+  }
+  .morechaozuo_bar:hover div div {
+    /* opacity: 1; */
+    display: flex;
+  }
+
+  .morechaozuo {
+    position: absolute;
+    left: 15px;
+    height: 12px;
+    width: 100px;
+    transition: width 0.3s;
+    display: flex;
+    /* background-color: #000; */
+  }
+
+  .morechaozuo > div {
+    /* opacity: 1; */
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    transition: display 0.3s;
+  }
+
+  .morechaozuo > div:hover {
+    background-color: #8492a6;
+  }
+}
+
+/* 平板 */
+@media (max-width: 960px) {
+  .messagecomments {
+    display: none;
+  }
+
+  .messageinfo {
+    width: 100%;
+    height: 100%;
+    /* background-color: aqua; */
+    margin: 0px 50px 0px 50px;
+  }
+}
