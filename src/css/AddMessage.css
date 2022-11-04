@@ -1,7 +1,7 @@
 * {
   margin: 0px;
   padding: 0px;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .main {
@@ -12,6 +12,16 @@
   /* justify-content: center; */
   align-items: center;
   position: relative;
+}
+
+.back {
+  position: absolute;
+  left: 0px;
+  margin: 10px 200px;
+  font-size: 2rem;
+  text-decoration: none;
+  color: #000;
+  cursor: pointer;
 }
 
 .form {

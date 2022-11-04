@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <el-link type="primary" href="/message/MessageView">返回</el-link>
+    <a class="back" type="primary" @click="$router.back()"><i class="fa-solid fa-backward"></i></a>
     <div class="form">
       <el-input rows="10" type="textarea" placeholder="请输入内容" v-model="textarea" maxlength="500" show-word-limit> </el-input>
       <div style="margin: 20px 0"></div>
@@ -30,7 +30,7 @@ export default {
       tools.ajax('/message/add', { info: app.textarea, title: app.text }, (data) => {
         app.$message(data.message)
         if (data.success) {
-          app.$router.push('/message')
+          app.$router.back()
         }
       })
     },

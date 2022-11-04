@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import user from '../router/user'
 Vue.use(VueRouter)
 
 const routes = [
@@ -9,13 +10,13 @@ const routes = [
   // component参数是vue文件
   // 列如path是/abc；文件是AbcView.vue
   // 表示地址栏输入服务器地址/abc看到的是AbcView.vue编译后的页面
+  // {
+  //   path: '/',
+  //   name: 'home',
+  //   component: () => import('../views/HomeView.vue'),
+  // },
   {
     path: '/',
-    name: 'home',
-    component: () => import('../views/HomeView.vue'),
-  },
-  {
-    path: '/message/MessageView',
     name: 'home',
     component: () => import('../views/message/MessageView.vue'),
   },
@@ -54,22 +55,7 @@ const routes = [
     name: 'home',
     component: () => import('../views/message/AddMessage.vue'),
   },
-  {
-    path: '/UserInfoUpate',
-    name: 'home',
-    component: () => import('../views/User/UserInfoView.vue'),
-  },
-  {
-    path: '/UserInfo',
-    name: 'home',
-    component: () => import('../views/User/UserView.vue'),
-  },
-  {
-    path: '/ForgetPass',
-    name: 'home',
-    component: () => import('../views/ForgetPass.vue'),
-  },
-]
+].concat(user)
 
 const router = new VueRouter({
   mode: 'history',

@@ -1,0 +1,215 @@
+.topbar {
+  height: 64px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  top: 0px;
+  left: 0px;
+  z-index: 100;
+  background: linear-gradient(45deg, #ffc700 0%, #e91e1e 100%);
+  font-size: 1 rem;
+  background: linear-gradient(45deg, var(--colorA), var(--colorC), var(--colorF));
+  animation: change 10s infinite linear;
+}
+@property --colorA {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: fuchsia;
+}
+@property --colorC {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #f79188;
+}
+@property --colorF {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: red;
+}
+@keyframes change {
+  20% {
+    --colorA: red;
+    --colorC: #a93ee0;
+    --colorF: fuchsia;
+  }
+  40% {
+    --colorA: #ff3c41;
+    --colorC: #e228a0;
+    --colorF: #2e4c96;
+  }
+  60% {
+    --colorA: orange;
+    --colorC: green;
+    --colorF: teal;
+  }
+  80% {
+    --colorA: #ae63e4;
+    --colorC: #0ebeff;
+    --colorF: #efc371;
+  }
+}
+
+.topbar .addmessage {
+  position: absolute;
+  right: 0px;
+  background-color: #e67e22;
+  padding: 15px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  margin-right: 200px;
+}
+
+.topbar .user-title {
+  position: absolute;
+  left: 0px;
+  margin-left: 200px;
+}
+
+.topbar .user-title img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  /* transition: all 0.5s; */
+}
+
+.topbar .user-title img:hover {
+  /* transform: rotateZ(360deg); */
+}
+
+.userInfoDiv {
+  position: absolute;
+  top: 64px;
+  width: 300px;
+  border-radius: 10px;
+  height: 0px;
+  /* filter: blur(16px); */
+  background-color: rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  box-shadow: 1px 1px 5px #000;
+  transition: height 0.2s;
+  /* display: none; */
+}
+
+.userInfoDiv .userInfoDiv-title {
+  text-align: center;
+  padding: 10px 0;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #e67e22;
+}
+.userInfoDiv .userInfoDiv-fans {
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+.userInfoDiv .userInfoDiv-fans div {
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #e67e22;
+}
+.userInfoDiv .userInfoDiv-fans div:nth-child(2) {
+  color: pink;
+}
+
+.userInfoDiv .userInfoDiv-fans div i {
+  font-style: normal;
+}
+
+.userInfoDiv .userInfoDiv-fans div:hover i:nth-child(1) {
+  animation: Clickfd 0.5s;
+}
+
+/* 左右摇晃 */
+@keyframes Clickfd {
+  0% {
+    top: 0px;
+  }
+  10% {
+    top: -3px;
+  }
+  20% {
+    top: -6px;
+  }
+  30% {
+    top: -9px;
+  }
+  40% {
+    top: -12px;
+    transform: rotate(10deg);
+  }
+  50% {
+    top: -15px;
+    transform: rotate(20deg);
+  }
+  60% {
+    top: -18px;
+    transform: rotate(10deg);
+  }
+  70% {
+    top: -21px;
+    transform: rotate(0deg);
+  }
+  80% {
+    top: -24px;
+    transform: rotate(-10deg);
+  }
+  90% {
+    top: -27px;
+    transform: rotate(-20deg);
+  }
+  100% {
+    top: -30px;
+    transform: rotate(-10deg);
+  }
+}
+
+/* 放大缩小 */
+@keyframes scaleDraw {
+  0% {
+    transform: scale(1); /*开始为原始大小*/
+  }
+  25% {
+    transform: scale(1.3); /*放大1.1倍*/
+  }
+  50% {
+    transform: scale(1);
+  }
+  75% {
+    transform: scale(1.3);
+  }
+}
+
+.userInfoDiv-usercenter {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.userInfoDiv-usercenter .userInfoDiv-user-center {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 10px;
+}
+.userInfoDiv-usercenter .userInfoDiv-user-center:hover {
+  background-color: rgba(227, 229, 231, 1);
+  border-radius: 5px;
+}
+
+.logout {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}

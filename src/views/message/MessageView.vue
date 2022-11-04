@@ -1,16 +1,17 @@
 <template>
-  <div>
-    <load-view v-if="loading"></load-view>
+  <div style="font-family: 'KaiTi'">
+    <!-- <load-view v-if="loading"></load-view> -->
+    <login-query-info :top="10" :left="200"></login-query-info>
     <div class="message">
       <div class="message-1">
-        <img src="../../../images/rose.jpg" alt="" />
-        <div class="input-group">
+        <img @mouseover="ImgStyle.filter = 'blur(0px)'" :style="ImgStyle" src="../../../images/rose.jpg" alt="" />
+        <div @mousemove="ImgStyle.filter = 'blur(4px)'" class="input-group">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" placeholder="请输入内容" />
-          <button>搜索</button>
+          <input v-model="messageabout.info" type="text" placeholder="请输入内容" />
+          <button @click="queryMessage()">搜索</button>
         </div>
       </div>
-      <div class="message-2">
+      <div @mouseover="ImgStyle.filter = 'blur(0px)'" class="message-2" :class="{ active: messageLoading }">
         <div v-for="m in messagelist" :key="m.umid" class="message-2-1">
           <div class="message-2-1-1">
             <div class="message-2-1-1-1">
@@ -18,7 +19,7 @@
               <img v-else src="https://pic3.zhimg.com/v2-83296272d2431fd53e17bef56652cdc1_r.jpg?source=1940ef5c" alt="" />
             </div>
             <div class="message-2-1-1-2">
-              <span>{{ m.title }}</span>
+              <span @click="MessageDetail(m.umid)">{{ m.title }}</span>
             </div>
             <div class="message-2-1-1-3">
               <div class="message-2-1-1-3-name">
@@ -33,14 +34,11 @@
             </div>
           </div>
         </div>
+        <el-empty v-if="messagelist.length == 0" :image-size="200"></el-empty>
       </div>
       <div class="message-foot">
-        <div
-          ><i @click="pageNext(page.pageNumber - 1)" class="fa-solid fa-chevron-left"></i>
-          <div class="pageNumber-list" v-for="p in page.pageCount" :key="p">
-            <div v-if="p - page.pageNumber <= 5" @click="pageNext((page.pageNumber = p))" :class="{ active: p == page.pageNumber }"></div>
-          </div>
-          <i @click="pageNext(page.pageNumber + 1)" class="fa-solid fa-chevron-right"></i>
+        <div class="block">
+          <el-pagination :hide-on-single-page="true" @current-change="pageNext" :page-size="page.pageSize" layout="total, prev, pager, next, jumper" :total="page.total"> </el-pagination>
         </div>
       </div>
     </div>
@@ -49,11 +47,11 @@
 
 <script>
 import tools from '@/js/tools'
-import LoadView from '@/components/LoadView.vue'
+import LoginQueryInfo from '@/components/Login&QueryInfo.vue'
 // import tools from '../../js/tools'
 let app
 export default {
-  components: { LoadView },
+  components: { LoginQueryInfo },
   name: 'MessageView',
   data() {
     return {
@@ -63,23 +61,29 @@ export default {
         nickname: '',
       },
       page: {},
-      outwidth: 0,
-      inwidth: 0,
-      fontleft: 0,
-      messageabout: {},
+      messageabout: {
+        info: '',
+      },
       loading: false,
+      messageLoading: false,
+      ImgStyle: {
+        filter: '',
+      },
     }
   },
   methods: {
     queryMessage() {
-      app.loading = true
+      document.documentElement.scrollTop = 500
+      window.onload = () => {
+        app.loading = true
+      }
+      app.messageLoading = true
       app.messageabout.pageNumber = app.page.pageNumber
       tools.ajax('/message/queryAll', app.messageabout, (data) => {
         app.messagelist = data.list
         app.page = data.page
-        app.outwidth = (app.page.pageCount - 1) * (document.body.clientWidth * 0.1) + 'px'
-        app.inwidth = app.page.pageNumber * (document.body.clientWidth * 0.1) + 'px'
         app.loading = false
+        app.messageLoading = false
       })
     },
     pageNext(pageNumber) {
@@ -88,20 +92,20 @@ export default {
       } else {
         app.page.pageNumber = pageNumber
         app.page.pageCount - 1
-        app.queryspanwidth()
         app.queryMessage()
       }
     },
-    queryspanwidth() {
-      app.fontleft = app.page.pageNumber * (document.body.clientWidth * 0.1) + 'px'
-      app.outwidth = (app.page.pageCount - 1) * (document.body.clientWidth * 0.1) + 'px'
-      app.inwidth = app.page.pageNumber * (document.body.clientWidth * 0.1) + 'px'
+    MessageDetail(id) {
+      app.$router.push({
+        path: '/MessageDetail',
+        query: {
+          umid: id,
+        },
+      })
     },
   },
   created() {
     app = this
-    // console.log(app.title)
-    app.queryspanwidth()
     app.queryMessage()
   },
 }

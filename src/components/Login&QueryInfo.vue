@@ -1,78 +1,151 @@
 <template>
-  <div class="UserOuter">
-    <span class="hover-span">
-      <img v-if="userInfo.img" :src="userInfo.img" />
-      <img v-else src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
-    </span>
-    <div slot="dropdown" v-if="code == 200" class="display-div">
-      <div>
-        <div class="nickname">
-          <div
-            ><i class="iconfont">&#xe8c8;</i>
-            <i
-              ><user>{{ user.nickname }}</user></i
-            ></div
-          ></div
-        >
-        <div class="userfans">
-          <div><i class="iconfont">&#xe8b7;</i> <i>动态管理</i></div
-          ><i class="iconfont">&#xe607;</i></div
-        >
-        <div class="usercenter">
-          <div><i class="iconfont">&#xe600;</i> <i>个人中心</i></div
-          ><i class="iconfont">&#xe607;</i></div
-        >
-        <div class="exite">
-          <div><i class="iconfont">&#xe647;</i> <i>退出登录</i></div></div
-        >
+  <div class="position">
+    <div class="topbar">
+      <!-- <div class="information"><i class="iconfont">&#xe62e;</i>消息</div> -->
+      <div @mouseenter="changeHeight()" @mouseleave="changeHeight2()" v-if="userinfo.isLogin == true" class="user-title">
+        <img v-if="userinfo.tbUserInfo.img" :src="userinfo.tbUserInfo.img" alt="" />
+        <img v-else src="https://pic3.zhimg.com/v2-83296272d2431fd53e17bef56652cdc1_r.jpg?source=1940ef5c" alt="" />
+        <div @mouseenter="changeHeight()" @mouseleave="changeHeight2()" class="userInfoDiv" :style="{ height: height2, opacity: opacity2, display: display2 }">
+          <div class="userInfoDiv-title">{{ userinfo.tbUser.nickname }}</div>
+          <div class="userInfoDiv-fans">
+            <div
+              ><i class="fa-solid fa-clipboard"></i><i>动态({{ userinfo.userOtherInfo.supporteMessage + userinfo.userOtherInfo.supporteReply }})</i></div
+            >
+            <div
+              ><i class="fa-solid fa-heart"></i><i>粉丝({{ userinfo.userOtherInfo.followMe }})</i></div
+            >
+            <div
+              ><i class="fa-solid fa-handshake"></i><i>关注({{ userinfo.userOtherInfo.follow }})</i></div
+            >
+          </div>
+          <div class="userInfoDiv-usercenter">
+            <div class="userInfoDiv-user-center" @click="routerTouser()">用户中心<i class="fa-solid fa-chevron-right"></i></div>
+          </div>
+          <div class="logout"><el-button @click="exite()" type="danger">退出登录</el-button></div>
+        </div>
       </div>
+      <div v-else class="user-title logout"><el-button @click="LoginVisible = true">登录</el-button></div>
+      <div class="addmessage" @click="$router.push('/AddMessage')"><i class="fa-regular fa-square-plus"></i>发布留言</div>
     </div>
-    <div slot="dropdown" v-else>
-      <el-dropdown-item> <el-button @click="tologin()" type="danger">登录</el-button></el-dropdown-item>
-    </div>
+    <announce-ment></announce-ment>
+    <el-dialog width="400px" :close-on-press-escape="false" :close-on-click-modal="false" title="登录" :visible.sync="LoginVisible">
+      <el-form :rules="rules" :model="login" ref="login">
+        <el-form-item label="账号" prop="username">
+          <el-input v-model="login.username"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input type="password" v-model="login.password"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <a href="/Reg">我要创建一个账号</a>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="LoginVisible = false">取 消</el-button>
+        <el-button type="warning" @click="Blank('login')">清 空</el-button>
+        <el-button type="primary" @click="loginInfo()">登录</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import tools from '@/js/tools'
+import AnnounceMent from './AnnounceMent.vue'
 // import tools from '../../js/tools'
 let app
 export default {
+  components: { AnnounceMent },
   name: 'LoginQuery',
   data() {
+    var validatePass = (rule, value, callback) => {
+      if (value == '') {
+        callback(new Error('请输入用户名'))
+      } else {
+        callback()
+      }
+    }
+    var validatePass2 = (rule, value, callback) => {
+      if (value == '') {
+        callback(new Error('请输入密码'))
+      } else {
+        callback()
+      }
+    }
     return {
+      rules: {
+        username: [{ validator: validatePass, tigger: blur }],
+        password: [{ validator: validatePass2, tigger: blur }],
+      },
       title: '1',
-      code: '',
-      user: '',
-      userInfo: '',
-      userotherinfo: '',
+      // code: '',
+      // user: '',
+      // userInfo: '',
+      // userotherinfo: '',
       allNumber: '',
+      LoginVisible: false,
+      itemNmae: '',
+      login: {
+        username: '',
+        password: '',
+      },
+      height2: '',
+      opacity2: '0',
+      display2: 'none',
     }
   },
+  computed: {
+    userinfo() {
+      return this.$store.state.loginUser
+    },
+  },
   methods: {
-    queryuser() {
-      tools.ajax('/user/auth/getUserInfo', {}, (data) => {
-        app.code = data.code
-        app.user = data.tbUser
-        app.userInfo = data.tbUserInfo
-        app.userotherinfo = data.userOtherInfo
-        app.allNumber = app.userotherinfo.reply + app.userotherinfo.message
+    routerTouser() {
+      this.$router.push({
+        path: '/user',
+        query: {
+          what: 'home',
+        },
       })
+    },
+    changeHeight() {
+      setTimeout(() => {
+        this.height2 = 'auto'
+        this.opacity2 = '1'
+        this.display2 = 'block'
+      }, 0.5 * 1000)
+    },
+    changeHeight2() {
+      setTimeout(() => {
+        this.height2 = '0px'
+        this.opacity2 = '0'
+        this.display2 = 'none'
+      }, 0.5 * 1000)
     },
     exite() {
       tools.ajax('/user/auth/logout', {}, (data) => {
+        this.$store.dispatch('updateUserInfo')
         if (data.success) {
+          app.changeHeight2()
           app.$message.warning(data.message)
-          // setTimeout(() => {
-          //   app.$router.push('/Login')
-          // })
           app.queryuser()
-          app.queryMessage()
         }
       })
     },
-    tologin() {
-      app.$router.push('/Login')
+    loginInfo() {
+      app.login.password = tools.md5(app.login.password)
+      tools.ajax('/user/auth/login', app.login, (data) => {
+        this.$store.dispatch('updateUserInfo')
+        if (data.success) {
+          app.changeHeight2()
+          app.LoginVisible = false
+          app.login = {
+            password: '',
+            username: '',
+          }
+        }
+        app.$message.warning(data.message)
+      })
     },
     toMyfollow() {
       app.$router.push('/MyfollowView')
@@ -84,102 +157,16 @@ export default {
     mymessage() {
       app.$router.push('/Mymessage')
     },
+    Blank(form) {
+      app.$refs[form].resetFields()
+    },
   },
   created() {
     app = this
-    app.queryuser()
+    console.log(this.userinfo)
   },
 }
 </script>
 <style>
-@import '../css/message.css';
-@import '../css/media.css';
-.UserOuter {
-  width: 50px;
-  /* line-height: 64px; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  /* background-color: aqua; */
-}
-.hover-span {
-  cursor: pointer;
-  height: auto;
-  position: absolute;
-}
-
-.hover-span img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  transition: width 0.3s, height 0.3s, top 0.15s, right 0.5s;
-}
-
-.UserOuter:hover .hover-span img {
-  z-index: 999;
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  position: absolute;
-  top: 14px;
-  right: -10px;
-}
-
-.display-div {
-  display: none;
-  width: 240px;
-  /* height: 200px; */
-  transform-origin: center center;
-  position: absolute;
-  top: 64px;
-  background-color: #fff;
-  right: 0px;
-  box-shadow: 3px 3px 10px black;
-  border-radius: 5%;
-}
-
-.UserOuter:hover .display-div {
-  border-radius: 5%;
-  display: flex;
-  /* width: 300px; */
-}
-
-i {
-  font-style: normal;
-}
-.display-div > div > div {
-  width: 200px;
-  display: flex;
-  cursor: pointer;
-  margin: 10px 20px;
-  line-height: 30px;
-}
-
-.display-div > div > div > div:first-child i {
-  margin: 5px 10px;
-}
-
-.nickname {
-  font-weight: bold;
-}
-
-.usercenter,
-.userfans {
-  display: flex;
-  justify-content: left;
-  position: relative;
-}
-
-.usercenter > i,
-.userfans > i {
-  position: absolute;
-  right: 10px;
-}
-
-.userfans:hover,
-.usercenter:hover {
-  background-color: rgb(227, 229, 231);
-  border-radius: 5px;
-}
+@import '../css/components/Login&Query.css';
 </style>

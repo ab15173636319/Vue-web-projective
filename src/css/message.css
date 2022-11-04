@@ -11,6 +11,9 @@ body {
   height: 1200px;
 }
 
+.message {
+}
+
 .message-1 {
   height: auto;
   width: 100%;
@@ -28,7 +31,7 @@ body {
 }
 
 .message-1 img:hover {
-  transform: scale(1.1);
+  /* transform: scale(1.1); */
 }
 
 .message-1 .input-group {
@@ -44,7 +47,7 @@ body {
   border-bottom-left-radius: 5%;
   padding: 10px;
   color: rgb(4, 4, 28);
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 .message-1 .input-group input {
@@ -54,11 +57,17 @@ body {
   border: none;
   padding: 0px 1rem;
   font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.3);
   color: rgb(4, 4, 28);
 }
 
 .message-1 .input-group input::-webkit-input-placeholder {
   color: rgb(4, 4, 28);
+}
+
+.message-1 .input-group input:focus .message-1 img {
+  /* filter: blur(2px); */
+  display: none;
 }
 
 .message-1 .input-group button {
@@ -69,9 +78,16 @@ body {
   height: 36px;
   outline: none;
   border: none;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.3);
   color: rgb(4, 4, 28);
   cursor: pointer;
+}
+
+.userinfo {
+  position: absolute;
+  left: 50%;
+  /* top: 150px; */
+  height: 150px;
 }
 
 .message-2 {
@@ -82,9 +98,14 @@ body {
   margin-top: 50px;
 }
 
+.message-2.active {
+  filter: blur(8px);
+}
+
 .message-2-1 {
   margin: 0px 0.25%;
   width: 9%;
+  z-index: 111;
   padding: 5px 0;
   /* background-color: rgba(55, 66, 250,1.0); */
   box-shadow: 2px 2px 5px rgba(47, 53, 66, 1);
@@ -200,6 +221,9 @@ body {
   background-color: #48dbfb;
   -webkit-filter: drop-shadow(0 0 3px #48dbfb);
   filter: drop-shadow(0 0 3px #48dbfb);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .pageNumber-list div.active {
@@ -211,4 +235,12 @@ body {
   background-color: #e74c3c;
   -webkit-filter: drop-shadow(0 0 3px #e74c3c);
   filter: drop-shadow(0 0 3px #e74c3c);
+}
+
+.pageNumber-list div span {
+  font-size: 16px;
+  font-weight: bold;
+  color: rgb(71, 212, 255);
+  -webkit-filter: drop-shadow(0 0 3px rgb(71, 212, 255));
+  filter: drop-shadow(0 0 3px rgb(71, 212, 255));
 }
