@@ -3,20 +3,18 @@
     <load-view v-if="loading"></load-view>
     <login-query-info></login-query-info>
     <div class="Back">
-      <i @click="$router.back()" class="fa-solid fa-backward"></i>
+      <i @click="$router.back()" class="iconfont icon-fanhui1"></i>
       <div class="title">
         <div class="title-title">{{ info.title }}</div>
         <div class="title-user">
           <div class="title-author">
-            作者：<div>{{ user.nickname }} </div>
+            作者：<div @click="ToUserCebter()">{{ user.nickname }} </div>
           </div>
           <div>|</div>
           <div>发布时间:{{ info.lastupdate | timer }} </div>
         </div>
       </div>
-      <div class="title-user-img">
-        <img :src="userinfo.img" alt="" />
-      </div>
+      <div class="title-user-img"> <img @click="ToUserCebter()" :src="userInfo.img" alt="" /> </div>
     </div>
     <div class="messageBody">
       <div class="message-out">
@@ -24,27 +22,47 @@
       </div>
       <div class="prise">
         <div>
-          <i @click="PriseForMessage(info.umid)" :class="{ active: info.praise == true }" class="iconfont hover">&#xe613;</i>
+          <i @click="PriseForMessage(info.umid)" :class="{ active: info.praise == true }" class="iconfont icon-dianzan1 hover"></i>
           <i style="color: red" v-if="info.praise == true" class="display">已点赞({{ info.praiseCount }})</i>
           <i v-else class="display">点赞({{ info.praiseCount }})</i>
         </div>
         <div>
-          <i class="ficonfont hover">&#xe609;</i>
-          <i class="display">评论({{ info.replyCount }})</i>
-        </div>
-        <div>
-          <i class="iconfont hover">&#xe661;</i>
+          <i class="iconfont icon-yanjing hover2"></i>
           <i class="display">点击量({{ info.hits }})</i>
         </div>
         <div>
-          <i class="iconfont hover">&#xe61e;</i>
+          <i class="iconfont icon-pingbi1 hover"></i>
           <i class="display">屏蔽</i>
         </div>
         <div>
-          <i class="iconfont hover">&#xe662;</i>
+          <i
+            @click="
+              JBVisible = true
+              JBumid = info.umid
+            "
+            class="iconfont icon-chakantiezigengduojubao hover"
+          ></i>
           <i class="display">举报</i>
         </div>
+        <div>
+          <i @click="followUser(user.username)" v-if="userOtherInfo.mineFollow" class="iconfont icon-yiguanzhu hover" style="font-weight: 300; color: red"></i>
+          <i @click="followUser(user.username)" v-else class="iconfont icon-guanzhu hover" style="font-weight: 300"></i>
+          <i v-if="userOtherInfo.mineFollow" class="display" style="color: red">已关注</i>
+          <i v-else class="display">关注</i>
+        </div>
       </div>
+    </div>
+    <el-dialog :close-on-press-escape="false" title="举报" :visible.sync="JBVisible" width="30%" center>
+      <span>
+        <el-input v-model="JBinfo" type="textarea" placeholder="举报的原因"></el-input>
+      </span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="JBVisible = false">取 消</el-button>
+        <el-button type="primary" @click="JBmessage()">确 定</el-button>
+      </span>
+    </el-dialog>
+    <div class="center-line">
+      <div></div>
     </div>
     <div class="comment">
       <div class="comment-body" v-for="c in commentlist" :key="c.umrid">
@@ -57,16 +75,23 @@
           <div class="comment-info-other">
             <div class="comment-operate">
               <div>
-                <i :class="{ active: info.praise == true }" class="iconfont hover">&#xe613;</i>
-                <i style="color: red" v-if="info.praise == true" class="display">已点赞({{ info.praiseCount }})</i>
-                <i v-else class="display">点赞({{ info.praiseCount }})</i>
+                <i @click="praiseComment(c.umrid)" :class="{ active: c.praise }" class="iconfont hover">&#xe613;</i>
+                <i style="color: red" v-if="c.praise == true" class="display">已点赞({{ c.praiseCount }})</i>
+                <i v-else class="display">点赞({{ c.praiseCount }})</i>
               </div>
               <div>
                 <i class="iconfont hover">&#xe61e;</i>
                 <i class="display">屏蔽</i>
               </div>
               <div>
-                <i class="iconfont hover">&#xe662;</i>
+                <i
+                  @click="
+                    JBCVisible = true
+                    JBcumrid = c.umrid
+                  "
+                  class="iconfont hover"
+                  >&#xe662;</i
+                >
                 <i class="display">举报</i>
               </div>
             </div>
@@ -76,7 +101,19 @@
           </div>
         </div>
       </div>
+      <div class="block">
+        <el-pagination @current-change="handleCurrentChange" :page-size="page.pageSize" layout="total, prev, pager, next, jumper" :total="page.total"> </el-pagination>
+      </div>
     </div>
+    <el-dialog :close-on-press-escape="false" title="举报" :visible.sync="JBCVisible" width="30%" center>
+      <span>
+        <el-input v-model="JBCinfo" type="textarea" placeholder="举报的原因"></el-input>
+      </span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="JBCVisible = false">取 消</el-button>
+        <el-button type="primary" @click="JBmessage()">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -96,29 +133,100 @@ export default {
       umid: '',
       info: '',
       user: '',
-      userinfo: '',
+      userInfo: '',
+      userOtherInfo: '',
+      page: {},
       commentlist: {},
+      JBVisible: false,
+      JBinfo: '',
+      JBumid: 0,
+      JBCVisible: false,
+      JBCinfo: '',
+      JBcumrid: 0,
     }
   },
+  computed: {
+    userinfo() {
+      return this.$store.state.loginUser
+    },
+  },
   methods: {
+    // 进入用户中心
+    ToUserCebter() {
+      app.$router.push({
+        path: '/UserDetail',
+        query: {
+          what: 'themself',
+          username: app.user.username,
+        },
+      })
+    },
+    // 评论分页
+    handleCurrentChange(val) {
+      app.page.pageNumber = val
+      console.log(`当前页: ${val}`)
+      app.queryMessage()
+    },
+    // 关注用户
+    followUser(username) {
+      tools.ajax('/message/followUser', { username: username }, () => {
+        app.queryMessage()
+      })
+    },
+    // 举报评论
+    JBcommont() {
+      tools.ajax('/message/examineReply', { info: app.JBCinfo, umrid: app.JBcumrid }, (data) => {
+        if (data.success) {
+          app.JBCVisible = false
+          app.queryMessage()
+        }
+        app.$message.warning(data.message)
+      })
+    },
+    // 举报留言
+    JBmessage() {
+      app.$message.success(app.JBumid)
+      tools.ajax(
+        '/message/examine',
+        {
+          info: app.JBinfo,
+          umid: app.JBumid,
+        },
+        (data) => {
+          if (data.success) {
+            app.JBVisible = false
+            app.queryMessage()
+          }
+          app.$message.warning(data.message)
+        }
+      )
+    },
+    // 点赞评论
+    praiseComment(umrid) {
+      tools.ajax('/message/supportReply', { umrid: umrid }, () => {
+        this.queryMessage()
+      })
+    },
+    // 查询留言id
     queryUmid() {
       app.umid = app.$route.query.umid
     },
+    // 根据留言id查询留言
     queryMessage() {
-      window.onload = () => {
-        app.loading = true
-      }
-      tools.ajax('/message/queryDetail', { umid: app.umid }, (data) => {
+      tools.ajax('/message/queryDetail', { umid: app.umid, pageNumber: app.page.pageNumber, pageSize: 5 }, (data) => {
         console.log(data.info)
         app.info = data.info
         app.user = data.info.user
         app.commentlist = data.list
-        app.userinfo = app.info.userInfo
-        app.loading = false
+        app.page = data.page
+        console.log(app.page)
+        app.userOtherInfo = app.info.userOtherInfo
+        app.userInfo = app.info.userInfo
       })
     },
+    // 给留言点赞
     PriseForMessage(umid) {
-      if (app.code == 200) {
+      if (app.userinfo.isLogin == true) {
         tools.ajax('/message/support', { umid: umid }, (date) => {
           if (date.success) {
             app.queryMessage()

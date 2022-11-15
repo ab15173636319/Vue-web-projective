@@ -122,6 +122,36 @@ let tools = {
         cb({ code: 500, success: false, message: '请求异常' })
       })
   },
+
+  openFile(cb, accept) {
+    let file = document.createElement('input')
+    file.setAttribute('type', 'file')
+    file.setAttribute('accept', 'image/png/gif')
+    if (accept) {
+      file.setAttribute('accept', accept)
+    }
+    file.addEventListener('change', function () {
+      cb(file.files[0])
+    })
+    file.click()
+  },
+
+  // 预览图片（获取图片信息）,参数1是文件对象，参数2是读取完成后的回馈
+  loadImgData(file, cb) {
+    if (!file) {
+      cb('')
+      return
+    }
+    // 读取图片文件内容
+    let fr = new FileReader()
+    // 监听文件读取完成事件
+    fr.addEventListener('load', function () {
+      cb(fr.result)
+    })
+    // 读取
+    fr.readAsDataURL(file)
+  },
+
   // 获取fid对应的文件下载链接地址
   getDownloadUrl(fid) {
     return SERVER_BASE_URL + '/user/file/download?fid=' + fid

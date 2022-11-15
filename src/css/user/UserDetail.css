@@ -1,0 +1,304 @@
+.UserContainer {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+.UserTop {
+  height: 192px;
+  width: 85%;
+  background-image: url(https://w.wallhaven.cc/full/e7/wallhaven-e7jj6r.jpg);
+  background-size: 100%;
+  background-position-y: 200px;
+  position: relative;
+}
+
+.navigation {
+  position: relative;
+  width: 84.84%;
+  /* width: 1199px; */
+}
+
+.navigation-top {
+  display: flex;
+  background-color: #fff;
+  height: 66px;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  color: #222;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border: 1px solid rgb(155, 152, 152);
+}
+
+.navigation-left {
+  display: flex;
+  margin-left: 16px;
+}
+
+.navigation-left div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 16px;
+  position: relative;
+  height: 66px;
+  cursor: pointer;
+}
+.navigation-left > div:hover {
+  color: #00a1d6;
+}
+.navigation-left > div.active {
+  color: #00a1d6;
+}
+.navigation-left div:nth-child(1) i {
+  color: #ff793f;
+}
+.navigation-left div:nth-child(2) i {
+  color: #aaa69d;
+}
+.navigation-left div:nth-child(1),
+.navigation-left div:nth-child(2) {
+  width: 50px;
+}
+.navigation-left div:nth-child(3),
+.navigation-left div:nth-child(4) {
+  width: 101px;
+}
+.navigation-left div:nth-child(3) i {
+  color: #ff5252;
+}
+.navigation-left div:nth-child(4) i {
+  color: #33d9b2;
+  font-weight: bold;
+}
+
+.navigation-right {
+  display: flex;
+}
+
+.navigation-right div {
+  margin-right: 16px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-pack: center;
+  justify-content: center;
+  float: left;
+  width: 58px;
+  height: 66px;
+  padding: 10px 0;
+  text-align: center;
+  box-sizing: border-box;
+  cursor: default;
+}
+
+.navigation-foot {
+  display: flex;
+  height: 4px;
+  width: 50px;
+  margin-left: 16px;
+  background-color: rgb(0, 161, 214);
+  position: absolute;
+  bottom: 0px;
+  transition: all 0.2s;
+}
+
+.img-userinfo {
+  height: 76px;
+  width: 100%;
+  position: absolute;
+  bottom: 0px;
+  margin-bottom: 10px;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+.img-userinfo > div {
+  display: flex;
+  flex-direction: column;
+  margin-left: 16px;
+}
+
+.img-userinfo img {
+  margin-left: 16px;
+  height: 66px;
+  width: 66px;
+  border-radius: 50%;
+}
+
+.img-userinfo h2 {
+  display: inline-block;
+  margin-right: 5px;
+  font-weight: 700;
+  line-height: 18px;
+  font-size: 18px;
+  vertical-align: middle;
+  color: #ff5252;
+  margin-bottom: 2px;
+}
+.img-userinfo h4 {
+  display: inline-block;
+  margin-right: 5px;
+  font-weight: 700;
+  line-height: 18px;
+  font-size: 12px;
+  vertical-align: middle;
+  color: rgba(164, 176, 190, 1);
+  margin-bottom: 2px;
+}
+
+.img-userinfo > div input {
+  background: transparent;
+  border-radius: 4px;
+  border: none;
+  box-shadow: none;
+  color: hsla(0, 0%, 100%, 0.8);
+  font-size: 12px;
+  font-family: Microsoft Yahei;
+  line-height: 26px;
+  height: 26px;
+  margin-left: -5px;
+  padding: 0 5px;
+  position: relative;
+  top: -1px;
+  width: 730px;
+}
+.img-userinfo > div input:hover {
+  line-height: 28px;
+  height: 28px;
+  padding: 0 10px;
+  transition: all 0.3s ease;
+  vertical-align: top;
+  border: 1px solid #ccd0d7;
+  background-color: rgba(247, 241, 227, 0.5);
+}
+.img-userinfo > div input:focus {
+  line-height: 28px;
+  height: 28px;
+  padding: 0 10px;
+  transition: all 0.3s ease;
+  vertical-align: top;
+  outline: 1px solid #ccd0d7;
+  border: 1px solid #ccd0d7;
+  color: #aaa69d;
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.Container {
+  margin-top: 16px;
+  width: 85%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.Container > div {
+}
+
+.Container-left {
+  margin-left: 32px;
+  width: 70%;
+  height: 200px;
+}
+.Noresult {
+  margin-left: 32px;
+  width: 70%;
+  border: 1px solid rgb(155, 152, 152);
+  border-radius: 5px;
+  /* height: 200px; */
+}
+.Container-left .messageUser {
+  display: flex;
+  width: 50%;
+  border: 1px solid rgb(155, 152, 152);
+  /* background-color: #00a1d6; */
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
+.Container-left .messageUser > div {
+  width: 100%;
+  margin-left: 16px;
+}
+.Container-left .messageUser .message-name {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.Container-left .messageUser .message-name > div:nth-child(1) {
+  height: 50px;
+}
+.Container-left .messageUser .message-name > div:nth-child(2) {
+  position: relative;
+}
+.Container-left .messageUser .message-name h6 {
+  color: #aaa69d;
+}
+.Container-left .messageUser .message-name .message-more {
+  position: absolute;
+  right: 16px;
+  color: #222;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.message-del {
+  cursor: pointer;
+  padding: 5px;
+  margin-top: 16px;
+  /* background-color: #ff5252; */
+  box-shadow: 0px 5px 5px rgb(151, 151, 151);
+  transform-origin: center;
+  transform: scale(0, 0);
+  border: 1px solid rgb(155, 152, 152);
+  border-radius: 5px;
+  transition: all 0.2s;
+}
+
+.message-del.active {
+  transform: scale(1, 1);
+}
+
+.message-title {
+  cursor: pointer;
+  color: #222;
+  font-weight: bold;
+}
+.message-title :hover {
+  color: rgba(30, 144, 255, 1);
+}
+
+.Container-right {
+  width: 28%;
+  height: 200px;
+  /* background-color: #222; */
+  border: 1px solid rgb(155, 152, 152);
+  border-radius: 5px;
+}
+
+.messageUser img {
+  height: 66px;
+  width: 66px;
+  border-radius: 50%;
+}
+
+.message-option {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+.message-option .dianzhan.active {
+  color: #ff5252;
+}
+.message-option i {
+  margin-right: 16px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #222;
+}

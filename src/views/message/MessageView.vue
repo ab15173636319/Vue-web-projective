@@ -11,6 +11,7 @@
           <button @click="queryMessage()">搜索</button>
         </div>
       </div>
+      <announce-ment></announce-ment>
       <div @mouseover="ImgStyle.filter = 'blur(0px)'" class="message-2" :class="{ active: messageLoading }">
         <div v-for="m in messagelist" :key="m.umid" class="message-2-1">
           <div class="message-2-1-1">
@@ -26,11 +27,11 @@
                 <span>{{ m.user.nickname }}</span>
                 <span>{{ m.lastupdate | timer }}</span>
               </div>
-              <div class="message-2-1-1-3-praise">
+              <!-- <div class="message-2-1-1-3-praise">
                 <span><i class="iconfont">&#xe613;</i> {{ m.praiseCount }} </span>
                 <span><i :class="{ active: m.praise == true }" class="iconfont">&#xe627;</i> {{ m.replyCount }} </span>
                 <span><i class="fa-solid fa-eye"></i> {{ m.hits }} </span>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -48,10 +49,11 @@
 <script>
 import tools from '@/js/tools'
 import LoginQueryInfo from '@/components/Login&QueryInfo.vue'
+import AnnounceMent from '@/components/AnnounceMent.vue'
 // import tools from '../../js/tools'
 let app
 export default {
-  components: { LoginQueryInfo },
+  components: { LoginQueryInfo, AnnounceMent },
   name: 'MessageView',
   data() {
     return {

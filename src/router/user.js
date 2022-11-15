@@ -9,5 +9,10 @@ let routers = [
     name: 'home',
     component: () => import('../views/User/UserInfoView.vue'),
   },
+  {
+    path: '/UserDetail',
+    name: 'home',
+    component: () => import('../views/User/UserDetail.vue'),
+  },
 ]
 export default routers

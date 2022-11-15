@@ -1,21 +1,39 @@
-/* 公用CSS */
 * {
   margin: 0px;
   padding: 0px;
-}
-
-/* 文字居中 */
-.tc {
-  text-align: center;
-}
-
-/* 内边距 */
-.pd10 {
-  padding: 1rem;
 }
 
 li {
   list-style: none;
   margin: 0px;
   padding: 0px;
+}
+
+@font-face {
+  font-family: '思源宋体';
+  src: url(../font/Source_Han_Serif_CN_VF_Regular.ttf);
+}
+
+@font-face {
+  font-family: '毛笔行书';
+  src: url(../font/胡敬礼毛笔行书_爱给网_aigei_com.ttf);
+}
+@font-face {
+  font-family: 'cocogoose';
+  src: url(../font/cocogoose字体_爱给网_aigei_com.ttf);
+}
+@font-face {
+  font-family: '硬笔';
+  src: url(../font/立体铁山硬笔行楷简字体_爱给网_aigei_com.ttf);
+}
+@font-face {
+  font-family: '楷体';
+  src: url(../font/YeZiGongChangWangChunFengKaiShu-2.ttf);
+}
+
+body {
+  background-color: antiquewhite;
+  font-family: 'kaiti';
+  min-width: 750px;
+  overflow-x: hidden;
 }

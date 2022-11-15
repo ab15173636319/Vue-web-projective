@@ -1,6 +1,6 @@
 <template>
   <div class="ad">
-    <i class="iconfont">公告：</i>
+    <i class="iconfont icon-gonggao">公告：</i>
     <p class="content">
       <span>{{ announce }}</span>
     </p>
@@ -8,20 +8,16 @@
 </template>
 
 <script>
-let app
 export default {
   name: 'AnnounceMent',
   data() {
     return {
       title: '公告',
-      announce: '可以修改用户信息了',
+      announce: '可以修改头像啦',
     }
   },
   methods: {},
-  created() {
-    console.log(app.title)
-    app = this
-  },
+  created() {},
 }
 </script>
 <style scoped>

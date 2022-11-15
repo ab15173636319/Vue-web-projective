@@ -1,21 +1,20 @@
 <template>
   <div class="position">
     <div class="topbar">
-      <!-- <div class="information"><i class="iconfont">&#xe62e;</i>消息</div> -->
-      <div @mouseenter="changeHeight()" @mouseleave="changeHeight2()" v-if="userinfo.isLogin == true" class="user-title">
-        <img v-if="userinfo.tbUserInfo.img" :src="userinfo.tbUserInfo.img" alt="" />
-        <img v-else src="https://pic3.zhimg.com/v2-83296272d2431fd53e17bef56652cdc1_r.jpg?source=1940ef5c" alt="" />
-        <div @mouseenter="changeHeight()" @mouseleave="changeHeight2()" class="userInfoDiv" :style="{ height: height2, opacity: opacity2, display: display2 }">
+      <div v-if="userinfo.isLogin == true" class="user-title">
+        <img @mouseover="DisplayUser()" @mouseout="noDisplayUser()" v-if="userinfo.tbUserInfo.img" :src="userinfo.tbUserInfo.img" alt="" />
+        <img @mouseover="DisplayUser()" @mouseout="noDisplayUser()" v-else src="https://pic3.zhimg.com/v2-83296272d2431fd53e17bef56652cdc1_r.jpg?source=1940ef5c" alt="" />
+        <div @mouseover="DisplayUser()" @mouseout="noDisplayUser()" v-if="userVisible == true" class="userInfoDiv">
           <div class="userInfoDiv-title">{{ userinfo.tbUser.nickname }}</div>
           <div class="userInfoDiv-fans">
-            <div
-              ><i class="fa-solid fa-clipboard"></i><i>动态({{ userinfo.userOtherInfo.supporteMessage + userinfo.userOtherInfo.supporteReply }})</i></div
+            <div @click="ToUserCebter"
+              ><i class="iconfont icon-youxiang"></i><i>动态({{ userinfo.userOtherInfo.supporteMessage + userinfo.userOtherInfo.supporteReply }})</i></div
             >
-            <div
-              ><i class="fa-solid fa-heart"></i><i>粉丝({{ userinfo.userOtherInfo.followMe }})</i></div
+            <div @click="ToUserCebter"
+              ><i class="iconfont icon-ganxingquzhiwei"></i><i>粉丝({{ userinfo.userOtherInfo.followMe }})</i></div
             >
-            <div
-              ><i class="fa-solid fa-handshake"></i><i>关注({{ userinfo.userOtherInfo.follow }})</i></div
+            <div @click="ToUserCebter"
+              ><i class="iconfont icon-icon-fensi"></i><i>关注({{ userinfo.userOtherInfo.follow }})</i></div
             >
           </div>
           <div class="userInfoDiv-usercenter">
@@ -25,9 +24,25 @@
         </div>
       </div>
       <div v-else class="user-title logout"><el-button @click="LoginVisible = true">登录</el-button></div>
-      <div class="addmessage" @click="$router.push('/AddMessage')"><i class="fa-regular fa-square-plus"></i>发布留言</div>
+      <div class="addmessage" @click="AddVisible = true"><i class="iconfont icon-add"></i>发布留言</div>
     </div>
-    <announce-ment></announce-ment>
+    <!-- 添加留言弹出框 -->
+    <div class="messagemeun" v-if="AddVisible">
+      <div><i @click="AddVisible = false" class="iconfont icon-chacha"></i></div>
+      <form action="" :class="{ active: AddVisible }">
+        <div>
+          <div style="border: 1px solid #ccc">
+            <Toolbar style="border-bottom: 1px solid #ccc" :editor="editor" :defaultConfig="toolbarConfig" :mode="mode" />
+            <Editor style="height: 350px; width: 100%; overflow-y: hidden" v-model="html" :defaultConfig="editorConfig" :mode="mode" @onCreated="onCreated" />
+          </div>
+        </div>
+        <div><input v-model="AddmessageInfo.title" placeholder="请输入内容标题" type="text" /></div>
+        <div class="addBtn">
+          <div @click="Addmessage()">发布</div>
+        </div>
+      </form>
+    </div>
+    <!-- 登录弹出框 -->
     <el-dialog width="400px" :close-on-press-escape="false" :close-on-click-modal="false" title="登录" :visible.sync="LoginVisible">
       <el-form :rules="rules" :model="login" ref="login">
         <el-form-item label="账号" prop="username">
@@ -51,11 +66,13 @@
 
 <script>
 import tools from '@/js/tools'
-import AnnounceMent from './AnnounceMent.vue'
+// import AnnounceMent from './AnnounceMent.vue'
+import 'animate.css'
+import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 // import tools from '../../js/tools'
 let app
 export default {
-  components: { AnnounceMent },
+  components: { Editor, Toolbar },
   name: 'LoginQuery',
   data() {
     var validatePass = (rule, value, callback) => {
@@ -77,11 +94,7 @@ export default {
         username: [{ validator: validatePass, tigger: blur }],
         password: [{ validator: validatePass2, tigger: blur }],
       },
-      title: '1',
-      // code: '',
-      // user: '',
-      // userInfo: '',
-      // userotherinfo: '',
+      userVisible: false,
       allNumber: '',
       LoginVisible: false,
       itemNmae: '',
@@ -89,9 +102,16 @@ export default {
         username: '',
         password: '',
       },
-      height2: '',
-      opacity2: '0',
-      display2: 'none',
+      editor: null,
+      html: '<p></p>',
+      toolbarConfig: {},
+      editorConfig: { placeholder: '请输入内容......' },
+      mode: 'default', // or 'simple'
+      AddVisible: false,
+      AddmessageInfo: {
+        title: '',
+        info: '',
+      },
     }
   },
   computed: {
@@ -99,7 +119,50 @@ export default {
       return this.$store.state.loginUser
     },
   },
+  mounted() {},
+  beforeDestroy() {
+    const editor = this.editor
+    if (editor == null) return
+    editor.destroy() // 组件销毁时，及时销毁编辑器
+  },
   methods: {
+    // 进入用户中心
+    ToUserCebter() {
+      app.$router.push({
+        path: '/UserDetail',
+        query: {
+          what: 'Myself',
+          username: app.userinfo.tbUser.username,
+        },
+      })
+    },
+    // 用户弹出框出现
+    DisplayUser() {
+      setTimeout(() => {
+        app.userVisible = true
+      }, 500)
+    },
+    noDisplayUser() {
+      setTimeout(() => {
+        app.userVisible = false
+      }, 500)
+    },
+    queryMessage() {
+      tools.ajax('/message/queryAll', app.messageabout, () => {})
+    },
+    Addmessage() {
+      app.AddmessageInfo.info = app.html
+      tools.ajax('/message/add', app.AddmessageInfo, (data) => {
+        app.$message.warning(data.message)
+        if (data.success) {
+          app.AddVisible = false
+          app.queryMessage()
+        }
+      })
+    },
+    onCreated(editor) {
+      this.editor = Object.seal(editor) // 一定要用 Object.seal() ，否则会报错
+    },
     routerTouser() {
       this.$router.push({
         path: '/user',
@@ -107,20 +170,6 @@ export default {
           what: 'home',
         },
       })
-    },
-    changeHeight() {
-      setTimeout(() => {
-        this.height2 = 'auto'
-        this.opacity2 = '1'
-        this.display2 = 'block'
-      }, 0.5 * 1000)
-    },
-    changeHeight2() {
-      setTimeout(() => {
-        this.height2 = '0px'
-        this.opacity2 = '0'
-        this.display2 = 'none'
-      }, 0.5 * 1000)
     },
     exite() {
       tools.ajax('/user/auth/logout', {}, (data) => {
@@ -169,4 +218,5 @@ export default {
 </script>
 <style>
 @import '../css/components/Login&Query.css';
+@import '@wangeditor/editor/dist/css/style.css';
 </style>

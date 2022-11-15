@@ -50,9 +50,10 @@ export default {
       app.user.password = tools.md5(app.user.password)
       tools.ajax('/user/auth/login', app.user, (data) => {
         if (data.success) {
+          this.$store.dispatch('updateUserInfo')
           app.$message.success(data.message)
           app.loading = false
-          app.$router.push('/message/MessageView')
+          app.$router.push('/')
         } else {
           app.loading = false
           app.$message.error(data.message)

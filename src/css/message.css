@@ -1,12 +1,3 @@
-* {
-  margin: 0px;
-  padding: 0px;
-}
-
-body {
-  overflow-x: hidden;
-}
-
 .message {
   height: 1200px;
 }

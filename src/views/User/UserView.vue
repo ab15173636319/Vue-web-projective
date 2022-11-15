@@ -13,7 +13,7 @@
                 routerToSelect()
               "
               :class="{ active: tab == 'home' }"
-              ><i class="fa-solid fa-house"></i><i>首页</i></div
+              ><i class="iconfont icon-shouye"></i><i>首页</i></div
             >
             <div
               @click="
@@ -21,7 +21,7 @@
                 routerToSelect()
               "
               :class="{ active: tab == 'setting' }"
-              ><i class="fa-regular fa-user"></i><i>我的信息</i></div
+              ><i class="iconfont icon-shezhi-xianxing"></i><i>我的信息</i></div
             >
             <div
               @click="
@@ -29,7 +29,7 @@
                 routerToSelect()
               "
               :class="{ active: tab == 'face' }"
-              ><i class="fa-regular fa-face-meh"></i><i>我的头像</i></div
+              ><i class="iconfont icon-xiaolian"></i><i>我的头像</i></div
             >
             <div
               @click="
@@ -37,7 +37,7 @@
                 routerToSelect()
               "
               :class="{ active: tab == 'security' }"
-              ><i class="fa-solid fa-lock"></i><i>账号安全</i></div
+              ><i class="iconfont icon-anquantianchong"></i><i>账号安全</i></div
             >
           </div>
           <div class="UserInfoInner-left-foot"> 个人空间<i class="fa-solid fa-chevron-right"></i> </div>
@@ -61,7 +61,7 @@
                       "
                       >修改信息</div
                     >
-                    <div>个人中心<i class="fa-solid fa-chevron-right"></i></div>
+                    <div>个人中心<i class="iconfont icon-jiantouyou"></i></div>
                   </div>
                 </div>
               </div>
@@ -110,7 +110,7 @@
             <div>
               <img :src="userinfo.tbUserInfo.img" alt="" />
             </div>
-            <el-upload action="" class="upload-demo" ref="upload" :on-change="handleChange" :auto-upload="false" :limit="1"> 点击上传 </el-upload>
+            <div @click="handleChange()">修改头像</div>
           </div>
           <div v-if="tab == 'security'">
             <div class="security">
@@ -132,8 +132,8 @@
                   <div v-if="userinfo.tbUserInfo.email == ''">未绑定</div>
                   <div class="ok" v-else>{{ email }}</div>
                 </div>
-                <div v-if="userinfo.tbUserInfo.email == ''">绑定邮箱</div>
-                <div v-else class="modiyiemail">修改邮箱</div>
+                <div v-if="userinfo.tbUserInfo.email == ''" @click="EmalVisible = true">绑定邮箱</div>
+                <div v-else class="modiyiemail" @click="EmalVisible = true">修改邮箱</div>
               </div>
               <div class="securitymodi">
                 <div>
@@ -146,13 +146,60 @@
                   <div class="ok" v-else>{{ phone }}</div>
                 </div>
                 <div v-if="userinfo.tbUserInfo.phone == ''">绑定电话</div>
-                <div v-else class="modiyiemail">修改电话</div>
+                <div v-else class="modiyiemail" @click="PhoneVisible = true">修改电话</div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <!-- 修改邮箱 -->
+    <el-dialog close="modiDialog" title="修改邮箱" :visible.sync="EmalVisible" :close-on-press-escape="false" width="30%" :before-close="handleClose">
+      <span>
+        <div><el-input v-model="modiemail.email" placeholder="请输入邮箱"></el-input></div>
+        <div class="modiElmail">
+          <el-input v-model="modiemail.code" placeholder="请输入验证码"></el-input>
+          <el-button @click="getEmailCode">获取验证码</el-button>
+        </div>
+      </span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="EmalVisible = false">取 消</el-button>
+        <el-button
+          type="primary"
+          @click="
+            EmalVisible = false
+            ModiEmail()
+          "
+          >修改</el-button
+        >
+      </span>
+    </el-dialog>
+    <!-- 修改电话号码 -->
+    <el-dialog title="修改电话号码" :visible.sync="PhoneVisible">
+      <span>
+        <div><el-input v-model="modiPhone.phone" placeholder="请输入电话号码"></el-input></div>
+        <div class="modiElmail">
+          <el-input v-model="modiPhone.code" placeholder="请输入验证码"></el-input>
+          <el-button @click="getPhoneCode()">获取验证码</el-button>
+        </div>
+      </span>
+      <el-dialog width="30%" title="请识别验证码" :visible.sync="ImgCodeVisible" append-to-body>
+        <div><img @click="getPhoneCode()" :src="DateMessage" alt="" /></div>
+        <el-input v-model="imgCode" placeholder="请输入图片验证码"></el-input>
+        <el-button @click="GetPhoneCode()">获取验证码</el-button>
+      </el-dialog>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="PhoneVisible = false">取 消</el-button>
+        <el-button
+          type="primary"
+          @click="
+            PhoneVisible = false
+            GetCode()
+          "
+          >修改</el-button
+        >
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -179,7 +226,20 @@ export default {
         qq: '',
         wechat: '',
       },
+      EmalVisible: false,
+      ImgCodeVisible: false,
+      PhoneVisible: false,
       selectedFile: null,
+      modiemail: {
+        email: '',
+        code: '',
+      },
+      modiPhone: {
+        phone: '',
+        code: '',
+      },
+      imgCode: '',
+      DateMessage: '',
     }
   },
   computed: {
@@ -188,14 +248,74 @@ export default {
     },
   },
   methods: {
-    handleChange(file) {
-      app.selectedFile = file
-      console.log(app.selectedFile)
-      tools.upload(app.selectedFile, { fileinfo: '头像' }, (data) => {
+    GetCode() {
+      tools.ajax('/user/auth/updateUserPhone', app.modiPhone, (data) => {
+        app.$message.warning(data.message)
+      })
+    },
+    GetPhoneCode() {
+      tools.ajax('/tool/sendValidateCode', { imageCode: app.imgCode, phone: app.modiPhone.phone }, (data) => {
+        app.$message.warning(data.message)
+        if (data.success) {
+          app.ImgCodeVisible = false
+        } else {
+          app.getPhoneCode()
+        }
+      })
+    },
+    getPhoneCode() {
+      if (app.modiPhone.phone != '') {
+        app.ImgCodeVisible = true
+        tools.ajax('/tool/getImageCode', {}, (data) => {
+          app.DateMessage = data.message
+        })
+      } else {
+        app.$message.warning('请先输入电话号码')
+      }
+    },
+    getEmailCode() {
+      tools.ajax('/tool/sendEmailCode', {}, (data) => {
         app.$message.warning(data.message)
       })
     },
 
+    ModiEmail() {
+      tools.ajax('/user/auth/updateUserEmail', this.modiemail, (data) => {
+        app.$message.warning(data.message)
+      })
+    },
+
+    handleChange() {
+      tools.openFile(function (file) {
+        app.selectedFile = file
+        console.log('1')
+        if ((app.selectedFile.size / (1024 * 1024)).toFixed(2) <= 2) {
+          if (file.type.substr(0, 6) == 'image/') {
+            tools.upload(app.selectedFile, { fileinfo: '头像' }, (data) => {
+              console.log('2')
+              if (data.success) {
+                app.getFileUrl()
+              } else {
+                app.$message.warning(data.message)
+              }
+            })
+          } else {
+            app.imgdata = ''
+          }
+        } else {
+          app.$message.warning('大小不能超过2mb')
+        }
+      })
+    },
+
+    getFileUrl() {
+      tools.ajax('/user/file/queryAll', {}, (data) => {
+        console.log('3')
+        console.log(data)
+        app.modifyinfo.img = tools.getDownloadUrl(data.list[0].fid)
+        app.modiUserInfo()
+      })
+    },
     getemail() {
       this.email = this.userinfo.tbUserInfo.email.replace(/^(\d{4})\d{4}(\d+)/, '$1****$2')
       this.phone = this.userinfo.tbUserInfo.phone.replace(/^(\d{4})\d{4}(\d+)/, '$1****$2')
@@ -226,7 +346,7 @@ export default {
       tools.ajax('/user/auth/updateUserInfo', app.modifyinfo, function (data) {
         app.$message.warning(data.message)
         if (data.success) {
-          this.$store.dispatch('updateUserInfo')
+          app.$store.dispatch('updateUserInfo')
           app.showModi()
         }
       })
@@ -261,6 +381,9 @@ export default {
     app.score()
     app.getemail()
     app.showModi()
+    if (app.userinfo.isLogin == false) {
+      app.$router.push('/login')
+    }
     this.getTab()
   },
 }

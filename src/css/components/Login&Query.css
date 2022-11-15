@@ -54,12 +54,18 @@
 .topbar .addmessage {
   position: absolute;
   right: 0px;
-  background-color: #e67e22;
+  /* background-color: #e67e22; */
+  transition: box-shadow 0.3s;
   padding: 15px 10px;
   border-radius: 10px;
   cursor: pointer;
   text-align: center;
   margin-right: 200px;
+  box-shadow: 1px 1px 3px;
+}
+
+.topbar .addmessage:hover {
+  box-shadow: 1px 1px 10px;
 }
 
 .topbar .user-title {
@@ -85,13 +91,24 @@
   top: 64px;
   width: 300px;
   border-radius: 10px;
-  height: 0px;
-  /* filter: blur(16px); */
   background-color: rgba(0, 0, 0, 0.1);
   background-color: #fff;
   box-shadow: 1px 1px 5px #000;
-  transition: height 0.2s;
-  /* display: none; */
+  transform-origin: top center;
+  animation: User 0.3s;
+}
+
+.userInfoDiv.active {
+}
+
+@keyframes User {
+  0% {
+    transform: scale(1, 0);
+  }
+
+  100% {
+    transform: scale(1, auto);
+  }
 }
 
 .userInfoDiv .userInfoDiv-title {
@@ -122,6 +139,10 @@
 
 .userInfoDiv .userInfoDiv-fans div i {
   font-style: normal;
+}
+
+.userInfoDiv .userInfoDiv-fans div i:nth-child(1) {
+  font-size: 1.5rem;
 }
 
 .userInfoDiv .userInfoDiv-fans div:hover i:nth-child(1) {
@@ -212,4 +233,119 @@
   display: flex;
   justify-content: center;
   margin: 10px 0;
+}
+
+.messagemeun {
+  position: absolute;
+  z-index: 101;
+  width: 100vw;
+  height: 100vh;
+  top: 0px;
+  left: 0px;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.messagemeun > div {
+  width: 750px;
+  padding: 10px;
+  display: flex;
+  justify-content: right;
+}
+
+.messagemeun > div i {
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.messagemeun form {
+  width: 750px;
+  height: auto;
+  padding: 20px 0;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.messagemeun form.active {
+  -webkit-animation: scale-up-top 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+  animation: scale-up-top 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+}
+@-webkit-keyframes scale-up-top {
+  0% {
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+    -webkit-transform-origin: 50% 0%;
+    transform-origin: 50% 0%;
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transform-origin: 50% 0%;
+    transform-origin: 50% 0%;
+  }
+}
+@keyframes scale-up-top {
+  0% {
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+    -webkit-transform-origin: 50% 0%;
+    transform-origin: 50% 0%;
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transform-origin: 50% 0%;
+    transform-origin: 50% 0%;
+  }
+}
+
+.messagemeun form > div {
+  width: 700px;
+}
+
+.messagemeun form > div textarea {
+  width: 100%;
+  height: 328px;
+  resize: none;
+  border-radius: 5px;
+  outline: none;
+  font-size: 16px;
+  text-indent: 1em;
+  /* padding-left: 16px; */
+  /* padding: 16px 16px 0 0; */
+}
+.messagemeun form > div input {
+  width: 100%;
+  height: 50px;
+  border-radius: 5px;
+  border: 1px solid #333;
+  outline: none;
+  font-size: 25px;
+  text-indent: 1em;
+}
+
+.addBtn {
+  display: flex;
+  justify-content: center;
+}
+
+.addBtn div {
+  padding: 10px 20px;
+  background-color: #2980b9;
+  cursor: pointer;
+  margin-top: 10px;
+  border-radius: 5px;
+  font-weight: 300px;
+  color: #fff;
+}
+
+.addBtn div:hover {
+  background-color: #3498db;
 }
