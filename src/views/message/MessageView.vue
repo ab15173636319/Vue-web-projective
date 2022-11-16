@@ -24,7 +24,7 @@
             </div>
             <div class="message-2-1-1-3">
               <div class="message-2-1-1-3-name">
-                <span>{{ m.user.nickname }}</span>
+                <span @click="ToUserDetail(m.user.username)">{{ m.user.nickname }}</span>
                 <span>{{ m.lastupdate | timer }}</span>
               </div>
               <!-- <div class="message-2-1-1-3-praise">
@@ -43,6 +43,7 @@
         </div>
       </div>
     </div>
+    <bei-an></bei-an>
   </div>
 </template>
 
@@ -50,10 +51,11 @@
 import tools from '@/js/tools'
 import LoginQueryInfo from '@/components/Login&QueryInfo.vue'
 import AnnounceMent from '@/components/AnnounceMent.vue'
+import BeiAn from '@/components/BeiAn.vue'
 // import tools from '../../js/tools'
 let app
 export default {
-  components: { LoginQueryInfo, AnnounceMent },
+  components: { LoginQueryInfo, AnnounceMent, BeiAn },
   name: 'MessageView',
   data() {
     return {
@@ -73,7 +75,27 @@ export default {
       },
     }
   },
+  computed: {
+    userinfo() {
+      return this.$store.state.loginUser
+    },
+  },
   methods: {
+    ToUserDetail(username) {
+      let what = ''
+      if (username == app.userinfo.tbUser.username) {
+        what = 'Myself'
+      } else {
+        what = 'themself'
+      }
+      app.$router.push({
+        path: '/UserDetail',
+        query: {
+          what: what,
+          username: username,
+        },
+      })
+    },
     queryMessage() {
       document.documentElement.scrollTop = 500
       window.onload = () => {

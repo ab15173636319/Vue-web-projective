@@ -200,15 +200,17 @@
         >
       </span>
     </el-dialog>
+    <bei-an></bei-an>
   </div>
 </template>
 
 <script>
 import LoginQueryInfo from '@/components/Login&QueryInfo.vue'
 import tools from '@/js/tools'
+import BeiAn from '@/components/BeiAn.vue'
 let app
 export default {
-  components: { LoginQueryInfo },
+  components: { LoginQueryInfo, BeiAn },
   name: 'UserView',
   data() {
     return {

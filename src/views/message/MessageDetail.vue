@@ -114,6 +114,7 @@
         <el-button type="primary" @click="JBmessage()">确 定</el-button>
       </span>
     </el-dialog>
+    <bei-an></bei-an>
   </div>
 </template>
 
@@ -121,9 +122,10 @@
 import tools from '@/js/tools'
 import LoadView from '@/components/LoadView.vue'
 import LoginQueryInfo from '@/components/Login&QueryInfo.vue'
+import BeiAn from '@/components/BeiAn.vue'
 let app
 export default {
-  components: { LoadView, LoginQueryInfo },
+  components: { LoadView, LoginQueryInfo, BeiAn },
   name: 'MessageDetail',
   data() {
     return {
@@ -248,4 +250,5 @@ export default {
 </script>
 <style scoped>
 @import '../../css/messagedetail/messagedetail.css';
+@import '../../css/commom.css';
 </style>

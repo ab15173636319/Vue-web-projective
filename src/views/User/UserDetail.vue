@@ -75,41 +75,52 @@
       </div>
 
       <div class="Container">
-        <div v-if="tab == 1" class="Container-left">
+        <div class="Container-left">
           <img v-if="lengthIsZhro" class="Noresult" src="../../../images/搜索无结果.png" alt="" />
-          <div v-else class="messageUser" v-for="m in Mlist" :key="m.umid">
-            <img :src="m.userInfo.img" alt="" />
-            <div>
-              <div class="message-name">
+          <div v-if="tab == 1" class="infinite-list-wrapper" style="overflow: auto">
+            <ul class="list" infinite-scroll-disabled="disabled">
+              <li v-for="m in Mlist" :key="m.umid" class="list-item messageUser">
+                <img :src="m.userInfo.img" alt="" />
                 <div>
-                  <h3>{{ m.user.nickname }}</h3>
-                  <h6>{{ m.lastupdate | timer }}</h6>
+                  <div class="message-name">
+                    <div>
+                      <h3>{{ m.user.nickname }}</h3>
+                      <h6>{{ m.lastupdate | timer }}</h6>
+                    </div>
+                    <div v-if="TypeVisible">
+                      <i
+                        @click="
+                          DelClass = true
+                          id = m.umid
+                        "
+                        class="iconfont icon-gengduo-shuxiang message-more"
+                      ></i>
+                      <div v-if="m.umid == id" :class="{ active: DelClass }" class="message-del" @click="DelMessage(m.umid)">删除</div>
+                    </div>
+                  </div>
+                  <div class="message-title">
+                    <div @click="MessageDetail(m.umid)">{{ m.title }}</div>
+                  </div>
+                  <div class="message-option">
+                    <i class="iconfont icon-dianzan dianzhan" @click="PriseForMessage(m.umid)" :class="{ active: m.praise }">{{ m.praiseCount }}</i>
+                    <i class="iconfont icon-pinglun">{{ m.replyCount }}</i>
+                    <i class="iconfont icon-yanjing">{{ m.hits }}</i>
+                  </div>
                 </div>
-                <div>
-                  <i
-                    @click="
-                      DelClass = true
-                      id = m.umid
-                    "
-                    class="iconfont icon-gengduo-shuxiang message-more"
-                  ></i>
-                  <div v-if="m.umid == id" :class="{ active: DelClass }" class="message-del" @click="DelMessage(m.umid)">删除</div>
-                </div>
-              </div>
-              <div class="message-title">
-                <div @click="MessageDetail(m.umid)">{{ m.title }}</div>
-              </div>
-              <div class="message-option">
-                <i class="iconfont icon-dianzan dianzhan" @click="PriseForMessage(m.umid)" :class="{ active: m.praise }">{{ m.praiseCount }}</i>
-                <i class="iconfont icon-pinglun">{{ m.replyCount }}</i>
-                <i class="iconfont icon-yanjing">{{ m.hits }}</i>
-              </div>
+              </li>
+            </ul>
+            <!-- <p v-if="loading">加载中...</p> -->
+            <!-- <p v-if="noMore">没有更多了</p> -->
+            <div class="block">
+              <el-pagination :hide-on-single-page="true" @current-change="handleCurrentChange" layout="prev, pager, next" :total="page.total"> </el-pagination>
             </div>
           </div>
         </div>
+
         <div class="Container-right"></div>
       </div>
     </div>
+    <bei-an></bei-an>
   </div>
 </template>
 
@@ -117,10 +128,11 @@
 import LoginQueryInfo from '@/components/Login&QueryInfo.vue'
 import Clickoutside from 'element-ui/src/utils/clickoutside'
 import tools from '@/js/tools'
+import BeiAn from '@/components/BeiAn.vue'
 let app
 export default {
   directives: { Clickoutside },
-  components: { LoginQueryInfo },
+  components: { LoginQueryInfo, BeiAn },
   name: 'UserDetail',
   data() {
     return {
@@ -145,6 +157,10 @@ export default {
       id: 0,
       DelClass: false,
       lengthIsZhro: false,
+      page: {
+        pageSize: 5,
+        pageNumber: 1,
+      },
 
       TypeVisible: false,
     }
@@ -170,13 +186,31 @@ export default {
     window.removeEventListener('click', () => {}, true)
   },
   methods: {
+    // 查询指定用户评论信息
+    QueryUserComment() {
+      tools.ajax('/message/queryReplyByUsername', { username: app.username }, (data) => {
+        console.log(data)
+      })
+    },
+    handleCurrentChange(val) {
+      app.page.pageNumber = val
+      if (app.TypeVisible == true) {
+        app.QueryUserAllMessage()
+      } else {
+        app.QueryPorintMessage()
+      }
+    },
     // 给留言点赞
     PriseForMessage(umid) {
       if (app.LoginUserInfo.isLogin == true) {
         console.log(umid)
         tools.ajax('/message/support', { umid: umid }, (date) => {
           if (date.success) {
-            app.QueryUserAllMessage()
+            if (app.TypeVisible == true) {
+              app.QueryUserAllMessage()
+            } else {
+              app.QueryPorintMessage()
+            }
           } else {
             app.$message.error(date.message)
           }
@@ -204,15 +238,34 @@ export default {
         }
       })
     },
-    // 查询用户发布的留言
+    // 查询用户发布的留言登录名用户
     QueryUserAllMessage() {
-      tools.ajax('/message/manage/queryUserAll', {}, (data) => {
-        app.Mlist = data.list
-        if (app.Mlist.length == 0) {
-          app.lengthIsZhro = true
+      if (app.TypeVisible == true) {
+        tools.ajax('/message/manage/queryUserAll', app.page, (data) => {
+          app.Mlist = data.list
+          app.page = data.page
+          if (app.Mlist.length == 0) {
+            app.lengthIsZhro = true
+          }
+        })
+      }
+    },
+    // 查询用户发布的留言指定用户
+    QueryPorintMessage() {
+      if (app.TypeVisible == false) {
+        let porintInfo = {
+          username: app.username,
+          pageSize: app.page.pageSize,
+          pageNumber: app.page.pageNumber,
         }
-        console.log(data)
-      })
+        tools.ajax('/message/queryAll', porintInfo, (data) => {
+          app.Mlist = data.list
+          app.page = data.page
+          if (app.Mlist.length == 0) {
+            app.lengthIsZhro = true
+          }
+        })
+      }
     },
     FindUser() {
       if (app.TypeVisible == false) {
@@ -238,7 +291,6 @@ export default {
       } else {
         app.TypeVisible = false
       }
-      console.log(app.TypeVisible)
     },
     ChickLeft(id) {
       let elment = document.getElementById(id)
@@ -267,13 +319,15 @@ export default {
     app = this
     app.queryType()
     app.QueryUserAllMessage()
+    app.QueryPorintMessage()
     app.QueryUserIfTypeIsMyself()
     app.FindUser()
     app.showinfo()
-    console.log(app.DelClass)
+    app.QueryUserComment()
   },
 }
 </script>
 <style scoped>
 @import '@/css/user/UserDetail.css';
+@import '@/css/commom.css';
 </style>

@@ -25,14 +25,17 @@
         </el-form>
       </div>
     </el-card>
+    <bei-an></bei-an>
   </div>
 </template>
 
 <script>
 import tools from '@/js/tools'
+import BeiAn from '@/components/BeiAn.vue'
 // import tools from '../../js/tools'
 let app
 export default {
+  components: { BeiAn },
   name: 'LoginView',
   data() {
     return {

@@ -35,5 +35,6 @@ body {
   background-color: antiquewhite;
   font-family: 'kaiti';
   min-width: 750px;
+  min-height: 100vh;
   overflow-x: hidden;
 }
