@@ -14,5 +14,20 @@ let routers = [
     name: 'home',
     component: () => import('../views/User/UserDetail.vue'),
   },
+  {
+    path: '/Jump',
+    name: 'home',
+    component: () => import('../views/User/RouterPage.vue'),
+  },
+  {
+    path: '/friend',
+    name: 'home',
+    component: () => import('../views/User/FriendView.vue'),
+  },
+  {
+    path: '/friend/chat',
+    name: 'home',
+    component: () => import('../views/User/ChatWith.vue'),
+  },
 ]
 export default routers

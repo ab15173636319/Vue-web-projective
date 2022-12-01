@@ -1,29 +1,35 @@
 <template>
   <div class="position">
     <div class="topbar">
-      <div v-if="userinfo.isLogin == true" class="user-title">
-        <img @mouseover="DisplayUser()" @mouseout="noDisplayUser()" v-if="userinfo.tbUserInfo.img" :src="userinfo.tbUserInfo.img" alt="" />
-        <img @mouseover="DisplayUser()" @mouseout="noDisplayUser()" v-else src="https://pic3.zhimg.com/v2-83296272d2431fd53e17bef56652cdc1_r.jpg?source=1940ef5c" alt="" />
-        <div @mouseover="DisplayUser()" @mouseout="noDisplayUser()" v-if="userVisible == true" class="userInfoDiv">
-          <div class="userInfoDiv-title">{{ userinfo.tbUser.nickname }}</div>
-          <div class="userInfoDiv-fans">
-            <div @click="ToUserCebter"
-              ><i class="iconfont icon-youxiang"></i><i>动态({{ userinfo.userOtherInfo.supporteMessage + userinfo.userOtherInfo.supporteReply }})</i></div
-            >
-            <div @click="ToUserCebter"
-              ><i class="iconfont icon-ganxingquzhiwei"></i><i>粉丝({{ userinfo.userOtherInfo.followMe }})</i></div
-            >
-            <div @click="ToUserCebter"
-              ><i class="iconfont icon-icon-fensi"></i><i>关注({{ userinfo.userOtherInfo.follow }})</i></div
-            >
+      <div @mouseenter="DisplayUser()" @mouseleave="noDisplayUser()" v-if="userinfo.isLogin == true" class="user-title">
+        <img v-if="userinfo.tbUserInfo.img" :src="userinfo.tbUserInfo.img" alt="" />
+        <img v-else src="https://pic3.zhimg.com/v2-83296272d2431fd53e17bef56652cdc1_r.jpg?source=1940ef5c" alt="" />
+        <div class="userInfoDivOut">
+          <div v-if="userVisible" class="userInfoDiv">
+            <div class="userInfoDiv-title">{{ userinfo.tbUser.nickname }}</div>
+            <div class="userInfoDiv-fans">
+              <div @click="ToUserCebter"
+                ><i class="iconfont icon-youxiang"></i><i>动态({{ userinfo.userOtherInfo.supporteMessage + userinfo.userOtherInfo.supporteReply }})</i></div
+              >
+              <div @click="ToUserCebter"
+                ><i class="iconfont icon-ganxingquzhiwei"></i><i>粉丝({{ userinfo.userOtherInfo.followMe }})</i></div
+              >
+              <div @click="ToUserCebter"
+                ><i class="iconfont icon-icon-fensi"></i><i>关注({{ userinfo.userOtherInfo.follow }})</i></div
+              >
+            </div>
+            <div class="userInfoDiv-usercenter">
+              <div class="userInfoDiv-user-center" @click="routerTouser()">用户中心<i class="fa-solid fa-chevron-right"></i></div>
+            </div>
+            <div class="userInfoDiv-usercenter">
+              <div class="userInfoDiv-user-center" @click="routerToFriend()">社交<i class="fa-solid fa-chevron-right"></i></div>
+            </div>
+            <div class="logout"><el-button @click="exite()" type="danger">退出登录</el-button></div>
           </div>
-          <div class="userInfoDiv-usercenter">
-            <div class="userInfoDiv-user-center" @click="routerTouser()">用户中心<i class="fa-solid fa-chevron-right"></i></div>
-          </div>
-          <div class="logout"><el-button @click="exite()" type="danger">退出登录</el-button></div>
         </div>
       </div>
       <div v-else class="user-title logout"><el-button @click="LoginVisible = true">登录</el-button></div>
+      <!-- <button @click="$router.push('/lottery')">抽奖</button> -->
       <div class="addmessage" @click="AddVisible = true"><i class="iconfont icon-add"></i>发布留言</div>
     </div>
     <!-- 添加留言弹出框 -->
@@ -112,6 +118,7 @@ export default {
         title: '',
         info: '',
       },
+      ChildPeop: false,
     }
   },
   computed: {
@@ -125,7 +132,17 @@ export default {
     if (editor == null) return
     editor.destroy() // 组件销毁时，及时销毁编辑器
   },
+  props: {
+    LoginIsVisible: {
+      type: Boolean,
+      default: false,
+    },
+  },
   methods: {
+    // 进入社交页
+    routerToFriend() {
+      app.$router.push('/friend')
+    },
     // 进入用户中心
     ToUserCebter() {
       app.$router.push({
@@ -140,11 +157,13 @@ export default {
     DisplayUser() {
       setTimeout(() => {
         app.userVisible = true
+        console.log(app.userVisible)
       }, 500)
     },
     noDisplayUser() {
       setTimeout(() => {
         app.userVisible = false
+        console.log(app.userVisible)
       }, 500)
     },
     queryMessage() {
@@ -173,9 +192,8 @@ export default {
     },
     exite() {
       tools.ajax('/user/auth/logout', {}, (data) => {
-        this.$store.dispatch('updateUserInfo')
+        app.$store.dispatch('updateUserInfo')
         if (data.success) {
-          app.changeHeight2()
           app.$message.warning(data.message)
           app.queryuser()
         }
@@ -184,9 +202,8 @@ export default {
     loginInfo() {
       app.login.password = tools.md5(app.login.password)
       tools.ajax('/user/auth/login', app.login, (data) => {
-        this.$store.dispatch('updateUserInfo')
+        app.$store.dispatch('updateUserInfo')
         if (data.success) {
-          app.changeHeight2()
           app.LoginVisible = false
           app.login = {
             password: '',
@@ -210,9 +227,21 @@ export default {
       app.$refs[form].resetFields()
     },
   },
+  watch: {
+    LoginIsVisible(v) {
+      app.LoginVisible = v
+    },
+    LoginVisible(c) {
+      console.log()
+      console.log('变了', c, this.LoginIsVisible)
+    },
+  },
   created() {
     app = this
-    console.log(this.userinfo)
+    setInterval(() => {
+      // console.log(app.LoginVisible)
+      // console.log(this.LoginIsVisible)
+    })
   },
 }
 </script>

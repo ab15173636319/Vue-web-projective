@@ -1,0 +1,1 @@
+@import url(https://cdn.bootcdn.net/ajax/libs/font-awesome/6.2.0/css/all.css);.main{width:100vw;height:100vh;display:flex;flex-direction:column;align-items:center;position:relative}.back{left:0;margin:10px 200px;font-size:2rem;text-decoration:none;color:#000;cursor:pointer}.back,.form{position:absolute}.form{top:100px;width:600px}.titletext{display:flex}

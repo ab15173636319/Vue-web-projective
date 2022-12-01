@@ -1,0 +1,117 @@
+.topChatUserInfo {
+  display: flex;
+  justify-content: center;
+}
+
+.topChatUserInfo > div {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.topChatUserInfo > div img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+}
+
+.topChatUserInfo > div div {
+  font-size: 12px;
+  padding: 5px;
+  cursor: pointer;
+}
+.topChatUserInfo > div div:hover {
+  color: tomato;
+}
+
+.chatmessage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chatmessagebody {
+  width: 70%;
+  height: 492px;
+  overflow-y: scroll;
+  background-color: rgba(99, 110, 114, 0.1);
+}
+
+.chatbox {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.chatbox .textarea {
+  width: 40%;
+  background-color: rgba(241, 242, 243, 1);
+  border: rgba(241, 242, 243, 1) 2px solid;
+  height: 50px;
+  border-radius: 10px;
+  resize: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: #5698c3;
+  padding: 5px 10px;
+  outline: none;
+  margin-right: 3%;
+  letter-spacing: 2px;
+}
+
+.chatbox span {
+  width: 70px;
+  background-color: rgba(128, 245, 216, 1);
+  height: 50px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: #5698c3 2px solid;
+  cursor: pointer;
+  margin-left: 3%;
+}
+
+.chatlist {
+}
+
+.chatlist > div {
+  display: flex;
+  margin: 20px;
+}
+
+.chatlist .chatuserinfo img {
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+}
+.chatlist .chatuserinfo div {
+  font-size: 12px;
+  text-align: center;
+}
+
+.chatlist .chatinfo {
+  width: 33.33%;
+  background-color: aliceblue;
+  padding: 5px;
+  margin: 0 20px;
+  border-radius: 10px;
+  word-wrap: break-word;
+}
+
+.chatlist .chatinfo.active {
+  background-color: aquamarine;
+}
+
+.chatok {
+  color: rgba(106, 176, 76, 1);
+}
+
+.chatno {
+  color: rgba(235, 77, 75, 1);
+}

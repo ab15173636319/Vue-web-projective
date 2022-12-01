@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import user from '../router/user'
+import lottery from '../router/lottery'
+import mobile from '../router/Mobile'
 Vue.use(VueRouter)
 
 const routes = [
@@ -55,7 +57,10 @@ const routes = [
     name: 'home',
     component: () => import('../views/message/AddMessage.vue'),
   },
-].concat(user)
+]
+  .concat(user)
+  .concat(lottery)
+  .concat(mobile)
 
 const router = new VueRouter({
   mode: 'history',

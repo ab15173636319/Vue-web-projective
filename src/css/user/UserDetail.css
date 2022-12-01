@@ -1,5 +1,6 @@
 .UserContainer {
   width: 100vw;
+  min-width: 900px;
   height: 1000px;
   display: flex;
   flex-direction: column;
@@ -266,12 +267,26 @@
 }
 
 .message-title {
-  cursor: pointer;
-  color: #222;
-  font-weight: bold;
+  color: var(--text1);
+  overflow: hidden;
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: pre-wrap;
+  line-height: 24px;
+  vertical-align: baseline;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  /*控制在3行*/
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
+
 .message-title :hover {
   color: rgba(30, 144, 255, 1);
+}
+
+.message-title img {
+  width: 200px;
 }
 
 .Container-right {
@@ -281,9 +296,55 @@
   /* background-color: #222; */
   border: 1px solid rgb(155, 152, 152);
   border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
 }
 
-.messageUser img {
+.Container-right > div {
+  width: 70%;
+  display: flex;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.Container-right > div:nth-child(1) {
+  padding: 20px 0px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #9499a0;
+}
+
+.Container-right > div:nth-child(1) div:nth-child(1) {
+  line-height: 23px;
+  font-size: 14px;
+  color: #222;
+}
+.Container-right > div:nth-child(1) div:nth-child(2) {
+  display: inline-block;
+  cursor: pointer;
+  width: 56px;
+  height: 22px;
+  color: #9499a0;
+  border: 0.5px solid #c0c9d4;
+  text-align: center;
+  font-size: 12px;
+  line-height: 22px;
+  border-radius: 4px;
+}
+.Container-right > div:nth-child(2) div {
+  min-width: 44%;
+  padding: 10px 0;
+  color: #6d757a;
+  font-size: 14px;
+  /* line-height: 20px; */
+  /* padding-right: 6px; */
+}
+
+.messageUser > img {
   height: 66px;
   width: 66px;
   border-radius: 50%;
@@ -303,8 +364,111 @@
   font-size: 16px;
   color: #222;
 }
-.block{
+.block {
   width: 55%;
   display: flex;
   justify-content: center;
+}
+
+.UserFans {
+  width: 50%;
+  background-color: #fff;
+}
+
+.fanstitle {
+  padding: 30px;
+}
+
+.fans {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  /* align-items: center; */
+  /* padding: 35px; */
+}
+
+.fans2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 35px;
+}
+
+.fansinfo {
+  display: flex;
+}
+
+.fansinfo img {
+  cursor: pointer;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+.fansname {
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+}
+
+.fansname > div:nth-child(1) {
+  cursor: pointer;
+  font-size: 20px;
+  padding: 5px;
+}
+
+.fansname > div:nth-child(2) {
+  font-size: 12px;
+  padding: 5px;
+  color: #6d757a;
+}
+.fansother div {
+}
+
+.eachotherfans {
+  background-color: #e5e9ef;
+  position: relative;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #6d757a;
+  padding: 4px 11px 4px 9px;
+  line-height: 16px;
+  border: 1px solid rgba(0, 0, 0, 0);
+  cursor: pointer;
+}
+
+.eachotherfans:hover {
+  /* border: 1px solid blue; */
+  border: 1px solid #eee;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.nofllow {
+  /* background-color: #e5e9ef; */
+  position: relative;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #6d757a;
+  padding: 4px 11px 4px 9px;
+  line-height: 16px;
+  border: 1px solid #eee;
+  cursor: pointer;
+}
+
+.nofllow:hover {
+  background-color: #e5e9ef;
+}
+
+.fonsbottomline {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fonsbottomline div {
+  height: 2px;
+  width: 85%;
+  background-color: rgb(238, 238, 238);
 }

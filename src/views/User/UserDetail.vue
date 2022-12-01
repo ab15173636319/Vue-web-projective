@@ -7,7 +7,7 @@
           <img :src="userinfo.img" alt="" />
           <div>
             <h2>{{ user.nickname }}</h2>
-            <input @blur="modiinfo()" v-model="modiInfo" v-if="TypeVisible" type="text" value="编辑个性签名" />
+            <input @blur="modiinfo()" v-model="modiInfo" v-if="TypeVisible" type="text" value="" />
             <div v-else>
               <h4 v-if="userinfo.info != ''">{{ userinfo.info }}</h4>
               <h4 v-else>这个人很懒，什么也没写QAQ~~</h4>
@@ -73,11 +73,10 @@
         </div>
         <div :style="bottomleft" class="navigation-foot"></div>
       </div>
-
       <div class="Container">
         <div class="Container-left">
-          <img v-if="lengthIsZhro" class="Noresult" src="../../../images/搜索无结果.png" alt="" />
           <div v-if="tab == 1" class="infinite-list-wrapper" style="overflow: auto">
+            <img v-if="lengthIsZhro" class="Noresult" src="../../../images/搜索无结果.png" alt="" />
             <ul class="list" infinite-scroll-disabled="disabled">
               <li v-for="m in Mlist" :key="m.umid" class="list-item messageUser">
                 <img :src="m.userInfo.img" alt="" />
@@ -115,9 +114,113 @@
               <el-pagination :hide-on-single-page="true" @current-change="handleCurrentChange" layout="prev, pager, next" :total="page.total"> </el-pagination>
             </div>
           </div>
+          <div v-if="tab == 2" class="infinite-list-wrapper" style="overflow: auto">
+            <img v-if="lengthIsZhro2" class="Noresult" src="../../../images/搜索无结果.png" alt="" />
+            <ul class="list" infinite-scroll-disabled="disabled">
+              <li v-for="m in CommentList" :key="m.umrid" class="list-item messageUser">
+                <img :src="m.userInfo.img" alt="" />
+                <div>
+                  <div class="message-name">
+                    <div>
+                      <h3>{{ m.user.nickname }}</h3>
+                      <h6>{{ m.lastupdate | timer }}</h6>
+                    </div>
+                    <div v-if="TypeVisible">
+                      <i
+                        @click="
+                          DelClass = true
+                          id = m.umrid
+                        "
+                        class="iconfont icon-gengduo-shuxiang message-more"
+                      ></i>
+                      <div v-if="m.umrid == id" :class="{ active: DelClass }" class="message-del" @click="DelComment(m.umrid, m.info)">删除</div>
+                    </div>
+                  </div>
+                  <div class="message-title">
+                    <div @click="MessageDetail(m.umid)" v-html="m.info"></div>
+                  </div>
+                  <div class="message-option">
+                    <i class="iconfont icon-dianzan dianzhan" @click="PriseForMessage(m.umid)" :class="{ active: m.praise }">{{ m.praiseCount }}</i>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <!-- <p v-if="loading">加载中...</p> -->
+            <!-- <p v-if="noMore">没有更多了</p> -->
+            <div class="block">
+              <el-pagination :hide-on-single-page="true" @current-change="ChangeComment" layout="prev, pager, next" :total="CommentInfo.page.total"> </el-pagination>
+            </div>
+          </div>
+          <div v-if="tab == 3" class="UserFans">
+            <div class="fanstitle">粉丝 </div>
+            <img v-if="lengthIsZhro3" class="Noresult" src="../../../images/搜索无结果.png" alt="" />
+            <div class="fonsbottomline">
+              <div></div>
+            </div>
+            <div v-for="f in FansList" :key="f.uid" class="fans">
+              <div class="fans2">
+                <div class="fansinfo">
+                  <img @click="ToUserCebter(f.user.username)" :src="f.userInfo.img" alt="" />
+                  <div class="fansname">
+                    <div @click="ToUserCebter(f.user.username)">{{ f.user.nickname }}</div>
+                    <div>{{ f.userInfo.info }}</div>
+                  </div>
+                </div>
+                <div class="fansother" v-if="LoginUserInfo.tbUser.username != f.user.username">
+                  <div class="eachotherfans" @click="FllowUser(f.user.username)" v-if="f.userOtherInfo.mineFollow">已互粉</div>
+                  <div class="nofllow" @click="FllowUser(f.user.username)" s v-else>关注</div>
+                </div>
+              </div>
+              <div class="fonsbottomline">
+                <div></div>
+              </div>
+            </div>
+            <div class="block">
+              <el-pagination :hide-on-single-page="true" @current-change="ChangeComment" layout="prev, pager, next" :total="queryfansinfo.page.total"> </el-pagination>
+            </div>
+          </div>
+          <div v-if="tab == 4" class="UserFans">
+            <div class="fanstitle">我的关注 </div>
+            <img v-if="lengthIsZhro4" class="Noresult" src="../../../images/搜索无结果.png" alt="" />
+            <div class="fonsbottomline">
+              <div></div>
+            </div>
+            <div v-for="f in Fllowlist" :key="f.uid" class="fans">
+              <div class="fans2">
+                <div class="fansinfo">
+                  <img @click="ToUserCebter(f.user.username)" :src="f.userInfo.img" alt="" />
+                  <div class="fansname">
+                    <div @click="ToUserCebter(f.user.username)">{{ f.user.nickname }}</div>
+                    <div>{{ f.userInfo.info }}</div>
+                  </div>
+                </div>
+                <div class="fansother" v-if="LoginUserInfo.tbUser.username != f.user.username">
+                  <div class="eachotherfans" @click="FllowUser(f.user.username)" v-if="f.userOtherInfo.mineFollow || TypeVisible">已互粉</div>
+                  <div class="nofllow" @click="FllowUser(f.user.username)" s v-else>关注</div>
+                </div>
+              </div>
+              <div class="fonsbottomline">
+                <div></div>
+              </div>
+            </div>
+            <div class="block">
+              <el-pagination :hide-on-single-page="true" @current-change="ChangeComment" layout="prev, pager, next" :total="queryfllow.page.total"> </el-pagination>
+            </div>
+          </div>
         </div>
-
-        <div class="Container-right"></div>
+        <div class="Container-right">
+          <div>
+            <div>个人资料</div>
+            <div @click="tomodiyi()">修改信息</div>
+          </div>
+          <div>
+            <div>账号：{{ user.username }}</div>
+            <div>邮箱：{{ userinfo.email }}</div>
+            <div>电话：{{ userinfo.phone }}</div>
+            <div>QQ：{{ userinfo.qq }}</div>
+            <div>微信：{{ userinfo.wechat }}</div>
+          </div>
+        </div>
       </div>
     </div>
     <bei-an></bei-an>
@@ -148,21 +251,52 @@ export default {
         width: '50px',
       },
       tab: 1,
-      user: '',
-      userinfo: '',
-      userotherinfo: '',
-      modiInfo: '',
+      user: {},
+      userinfo: {},
+      userotherinfo: {},
+      modiInfo: '编辑个性签名吧',
       PariseCount: 0,
       Mlist: '',
       id: 0,
       DelClass: false,
       lengthIsZhro: false,
+      lengthIsZhro2: false,
+      lengthIsZhro3: false,
+      lengthIsZhro4: false,
       page: {
         pageSize: 5,
         pageNumber: 1,
       },
 
+      CommentList: [],
+      CommentInfo: {
+        // username: app.username,
+        page: {
+          pageSize: 5,
+          pageNumber: 1,
+        },
+      },
+
       TypeVisible: false,
+      pageNumber: 1,
+
+      // 用户粉丝
+      FansList: [],
+      queryfansinfo: {
+        page: {
+          pageSize: 5,
+          pageNumber: 1,
+        },
+      },
+
+      // 用户关注
+      Fllowlist: [],
+      queryfllow: {
+        page: {
+          pageSize: 5,
+          pageNumber: 1,
+        },
+      },
     }
   },
   computed: {
@@ -186,11 +320,96 @@ export default {
     window.removeEventListener('click', () => {}, true)
   },
   methods: {
+    tomodiyi() {
+      this.$router.push({
+        path: '/user',
+        query: {
+          what: 'setting',
+        },
+      })
+    },
+    // 进入用户中心
+    ToUserCebter(username) {
+      app.$router.push({
+        path: '/Jump',
+        query: {
+          what: 'themself',
+          username: username,
+        },
+      })
+    },
+
+    // 关注&取消关注
+    FllowUser(username) {
+      tools.ajax('/message/followUser', { username: username }, () => {
+        app.QueryUserFans()
+      })
+    },
+    // 关注列表
+
+    QueryFllow() {
+      app.queryfllow['username'] = app.username
+      app.queryfllow.pageNumber = app.queryfllow.page.pageNumber
+      app.queryfllow.pageSize = app.queryfllow.page.pageSize
+      tools.ajax('/message/queryFollowUserListByName', app.queryfllow, (data) => {
+        app.Fllowlist = data.list
+        if (data.list == 0) {
+          app.lengthIsZhro4 = true
+        }
+      })
+    },
+
+    // 粉丝
+    QueryUserFans() {
+      app.queryfansinfo['username'] = app.username
+      app.queryfansinfo.pageNumber = app.queryfansinfo.page.pageNumber
+      app.queryfansinfo.pageSize = app.queryfansinfo.page.pageSize
+      tools.ajax('/message/queryFollowMeUserListByName', app.queryfansinfo, (data) => {
+        app.FansList = data.list
+        if (data.list == 0) {
+          app.lengthIsZhro3 = true
+        }
+      })
+    },
+    // 删除评论
+    DelComment(umrid, info) {
+      this.$confirm('此操作将永久删除该"' + info + '"评论, 是否继续?', {
+        confirmButtonText: '就算玉皇大帝来了都救不了',
+        cancelButtonText: '我回心转意了',
+        type: 'warning',
+      })
+        .then(() => {
+          tools.ajax('/message/manage/deletUserMessageReply', { umrid: umrid }, (data) => {
+            this.$message({
+              type: 'warning',
+              message: data.message,
+            })
+            app.QueryUserComment()
+          })
+        })
+        .catch(() => {
+          this.$message({
+            type: 'success',
+            message: '已取消删除',
+          })
+        })
+    },
     // 查询指定用户评论信息
     QueryUserComment() {
-      tools.ajax('/message/queryReplyByUsername', { username: app.username }, (data) => {
-        console.log(data)
+      app.CommentInfo['username'] = app.username
+      app.CommentInfo.pageNumber = app.CommentInfo.page.pageNumber
+      app.CommentInfo.pageSize = app.CommentInfo.page.pageSize
+      tools.ajax('/message/queryReplyByUsername', app.CommentInfo, (data) => {
+        if (data.list.length == 0) {
+          app.lengthIsZhro2 = true
+        }
+        app.CommentList = data.list
+        app.CommentInfo.page = data.page
       })
+    },
+    ChangeComment(val) {
+      app.CommentInfo.page.pageNumber = val
+      app.QueryUserComment()
     },
     handleCurrentChange(val) {
       app.page.pageNumber = val
@@ -270,9 +489,10 @@ export default {
     FindUser() {
       if (app.TypeVisible == false) {
         tools.ajax('/user/auth/getUserInfoByName', { username: app.username }, (data) => {
+          console.log('User:', data)
           app.user = data.tbUser
           app.userinfo = data.tbUserInfo
-          app.userOtherInfo = data.userOtherInfo
+          app.userotherinfo = data.userOtherInfo
           app.PariseCount = app.userotherinfo.supporteMessage + app.userotherinfo.supporteReply
         })
       }
@@ -324,6 +544,8 @@ export default {
     app.FindUser()
     app.showinfo()
     app.QueryUserComment()
+    app.QueryUserFans()
+    app.QueryFllow()
   },
 }
 </script>

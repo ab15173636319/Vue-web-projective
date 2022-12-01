@@ -1,7 +1,7 @@
 <template>
   <div>
     <load-view v-if="loading"></load-view>
-    <login-query-info></login-query-info>
+    <login-query-info :LoginIsVisible="LoginProp"></login-query-info>
     <div class="Back">
       <i @click="$router.back()" class="iconfont icon-fanhui1"></i>
       <div class="title">
@@ -65,7 +65,20 @@
       <div></div>
     </div>
     <div class="comment">
-      <div class="comment-body" v-for="c in commentlist" :key="c.umrid">
+      <div class="CommentHeat">
+        <div>
+          <span>评论</span>
+          <span>{{ info.replyCount }}</span>
+        </div>
+        <div>
+          <span @click="orderBy = 1" :class="{ active: orderBy == 1 }">时间</span>
+          <span>|</span>
+          <span @click="orderBy = 2" :class="{ active: orderBy == 2 }">热度</span>
+        </div>
+      </div>
+      <div class="AddComment"> <input type="text" placeholder="快来沙发╭(′▽`)╭(′▽`)╯" /><button>评论</button> </div>
+      <div class="nocomment" v-if="CommomVisible">还没有人评论哦，快来沙发吧(づ￣ 3￣)づ </div>
+      <div v-else class="comment-body" v-for="c in commentlist" :key="c.umrid">
         <div>
           <img class="comment-img" :src="c.userInfo.img" alt="" />
           <div>{{ c.user.nickname }}</div>
@@ -102,7 +115,7 @@
         </div>
       </div>
       <div class="block">
-        <el-pagination @current-change="handleCurrentChange" :page-size="page.pageSize" layout="total, prev, pager, next, jumper" :total="page.total"> </el-pagination>
+        <el-pagination :hide-on-single-page="true" @current-change="handleCurrentChange" :page-size="page.pageSize" layout="total, prev, pager, next, jumper" :total="page.total"> </el-pagination>
       </div>
     </div>
     <el-dialog :close-on-press-escape="false" title="举报" :visible.sync="JBCVisible" width="30%" center>
@@ -145,6 +158,9 @@ export default {
       JBCVisible: false,
       JBCinfo: '',
       JBcumrid: 0,
+      LoginProp: false,
+      CommomVisible: false,
+      orderBy: 1,
     }
   },
   computed: {
@@ -215,13 +231,14 @@ export default {
     },
     // 根据留言id查询留言
     queryMessage() {
-      tools.ajax('/message/queryDetail', { umid: app.umid, pageNumber: app.page.pageNumber, pageSize: 5 }, (data) => {
-        console.log(data.info)
+      tools.ajax('/message/queryDetail', { umid: app.umid, pageNumber: app.page.pageNumber, pageSize: 5, orderBy: app.orderBy }, (data) => {
         app.info = data.info
         app.user = data.info.user
         app.commentlist = data.list
+        if (app.commentlist.length == 0) {
+          app.CommomVisible = true
+        }
         app.page = data.page
-        console.log(app.page)
         app.userOtherInfo = app.info.userOtherInfo
         app.userInfo = app.info.userInfo
       })
@@ -237,7 +254,8 @@ export default {
           }
         })
       } else {
-        app.LoginVisible = true
+        app.LoginProp = true
+        console.log(app.LoginProp)
       }
     },
   },
@@ -245,6 +263,14 @@ export default {
     app = this
     app.queryUmid()
     app.queryMessage()
+    // pathname
+
+    // tools.isPhone(location.pathname, tools.getBrowserInfo)
+  },
+  watch: {
+    orderBy() {
+      app.queryMessage()
+    },
   },
 }
 </script>

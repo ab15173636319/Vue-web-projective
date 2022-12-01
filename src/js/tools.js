@@ -2,6 +2,7 @@
 import qs from 'qs'
 import axios from 'axios'
 import spark from 'spark-md5'
+import router from '@/router'
 
 // 后端接口的服务器基础地址
 const SERVER_BASE_URL = 'https://huhuiyu.top/teach_project_service'
@@ -174,6 +175,57 @@ let tools = {
       }
     }
     return result
+  },
+  // 合并两个json对象
+  // 判断是否是手机端还是pc段的方法
+  getBrowserInfo() {
+    let browser = {
+      versions: (() => {
+        let u = navigator.userAgent
+        // let app = navigator.appVersion;
+        return {
+          trident: u.indexOf('Trident') > -1, //IE内核
+          presto: u.indexOf('Presto') > -1, //opera内核
+          webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+          gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+          mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+          ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+          android: u.indexOf('Android') > -1 || u.indexOf('Adr') > -1, //android终端
+          iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
+          iPad: u.indexOf('iPad') > -1, //是否iPad
+          webApp: u.indexOf('Safari') == -1, //是否web应该程序，没有头部与底部
+          weixin: u.indexOf('MicroMessenger') > -1, //是否微信 （2015-01-22新增）
+          qq: u.match(/\sQQ/i) == ' qq', //是否QQ
+        }
+      })(),
+      language: (navigator.browserLanguage || navigator.language).toLowerCase(),
+    }
+
+    return browser
+  },
+
+  judgment() {
+    var sUserAgent = navigator.userAgent
+    return sUserAgent.indexOf('Android') > -1 || sUserAgent.indexOf('iPhone') > -1 || sUserAgent.indexOf('iPad') > -1 || sUserAgent.indexOf('iPod') > -1 || sUserAgent.indexOf('Symbian') > -1
+  },
+
+  isPhone(path, isphone) {
+    if (isphone == true) {
+      router.push(path)
+    } else {
+      router.push('/mobile')
+    }
+  },
+
+  isload() {
+    var oldonload = window.onload
+    // let boo = false
+    // if (typeof window.onload != 'function') {
+    //   boo = true
+    // } else {
+    //   boo = false
+    // }
+    return oldonload
   },
 }
 

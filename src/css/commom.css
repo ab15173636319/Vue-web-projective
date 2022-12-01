@@ -32,7 +32,7 @@ li {
 }
 
 body {
-  background-color: antiquewhite;
+  background-color: rgba(255, 234, 167, 0.5);
   font-family: 'kaiti';
   min-width: 750px;
   min-height: 100vh;

@@ -12,6 +12,16 @@
         </div>
       </div>
       <announce-ment></announce-ment>
+      <div class="CommentHeat">
+        <div>
+          <span>留言</span>
+        </div>
+        <div>
+          <span @click="messageabout.orderBy = 1" :class="{ active: messageabout.orderBy == 1 }">时间</span>
+          <span>|</span>
+          <span @click="messageabout.orderBy = 6" :class="{ active: messageabout.orderBy == 6 }">热度</span>
+        </div>
+      </div>
       <div @mouseover="ImgStyle.filter = 'blur(0px)'" class="message-2" :class="{ active: messageLoading }">
         <div v-for="m in messagelist" :key="m.umid" class="message-2-1">
           <div class="message-2-1-1">
@@ -27,11 +37,6 @@
                 <span @click="ToUserDetail(m.user.username)">{{ m.user.nickname }}</span>
                 <span>{{ m.lastupdate | timer }}</span>
               </div>
-              <!-- <div class="message-2-1-1-3-praise">
-                <span><i class="iconfont">&#xe613;</i> {{ m.praiseCount }} </span>
-                <span><i :class="{ active: m.praise == true }" class="iconfont">&#xe627;</i> {{ m.replyCount }} </span>
-                <span><i class="fa-solid fa-eye"></i> {{ m.hits }} </span>
-              </div> -->
             </div>
           </div>
         </div>
@@ -67,6 +72,7 @@ export default {
       page: {},
       messageabout: {
         info: '',
+        orderBy: 1,
       },
       loading: false,
       messageLoading: false,
@@ -97,6 +103,7 @@ export default {
       })
     },
     queryMessage() {
+      console.log(app.messageabout)
       document.documentElement.scrollTop = 500
       window.onload = () => {
         app.loading = true
@@ -131,6 +138,14 @@ export default {
   created() {
     app = this
     app.queryMessage()
+  },
+  watch: {
+    messageabout: {
+      handler() {
+        app.queryMessage()
+      },
+      deep: true,
+    },
   },
 }
 </script>

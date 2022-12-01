@@ -1,0 +1,170 @@
+.navTop {
+  border-top: 1px solid rgba(45, 52, 54, 0.1);
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
+}
+
+.navTop > div {
+  width: 33.333333%;
+  padding: 20px 0;
+  text-align: center;
+  cursor: pointer;
+  font-size: 16px;
+  color: #222;
+  font-weight: bold;
+}
+
+.navTop > div:nth-child(1) {
+  /* margin-top: 10px; */
+  padding: 30px 0;
+  z-index: -1;
+  position: absolute;
+  background-color: #c7ecee;
+  transition: left 0.5s;
+}
+
+.friendBar {
+  width: 100%;
+  min-height: 495px;
+  display: flex;
+  justify-content: center;
+}
+
+.friend {
+  width: 70%;
+  min-height: 400px;
+  background-color: rgba(178, 190, 195, 0.1);
+}
+.friend .Noresult {
+  width: 70%;
+}
+
+.friend > span {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #222;
+  line-height: 50px;
+  padding: 20px;
+}
+
+.friendlist {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.friendlist > div {
+  width: 95%;
+  margin-top: 10px;
+  background-color: rgba(178, 190, 195, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.friendName {
+  display: flex;
+  margin-left: 32px;
+  align-items: center;
+}
+
+.friendName img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+}
+
+.friendName > div {
+  margin-left: 16px;
+}
+
+.friendName > div div {
+  margin: 16px 0;
+}
+
+.friendOther {
+  display: flex;
+}
+
+.friendOther > div {
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.friendOther > div.chat {
+  color: #fff;
+  font-size: 12px;
+  background-color: rgba(85, 239, 196, 1);
+  padding: 5px;
+  border-radius: 5px;
+}
+.friendOther > div.del {
+  color: #fff;
+  font-size: 12px;
+  background-color: tomato;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.friendsearbar {
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.friendsearbar input {
+  width: 30%;
+  height: 32px;
+  padding: 0 5px;
+  background: rgba(178, 190, 195, 0.5);
+  border-radius: 4px;
+  border: none;
+  box-shadow: none;
+  color: hsla(0, 0%, 100%, 0.8);
+  font-size: 12px;
+  line-height: 26px;
+  height: 26px;
+  margin-left: -5px;
+  padding: 0 5px;
+  position: relative;
+  top: -1px;
+}
+
+.friendsearbar input:hover {
+  background: rgba(178, 190, 195, 0.7);
+}
+
+.friendsearbar input:focus {
+  border: none;
+  outline: none;
+  background: rgba(178, 190, 195, 1);
+  color: #fff;
+}
+
+.friendsearbar span {
+  width: 80px;
+  height: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: rgba(129, 236, 236, 0.5);
+  margin-left: 10px;
+}
+
+.friendsearbar span:hover {
+  background-color: rgba(129, 236, 236, 1);
+}
+
+.pagonation {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

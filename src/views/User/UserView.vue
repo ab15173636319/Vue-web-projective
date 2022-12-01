@@ -40,7 +40,7 @@
               ><i class="iconfont icon-anquantianchong"></i><i>账号安全</i></div
             >
           </div>
-          <div class="UserInfoInner-left-foot"> 个人空间<i class="fa-solid fa-chevron-right"></i> </div>
+          <div @click="RouterToUser()" class="UserInfoInner-left-foot"> 个人空间<i class="iconfont icon-jiantouyou"></i> </div>
         </div>
         <div class="UserInfoInner-right">
           <!-- home -->
@@ -61,7 +61,7 @@
                       "
                       >修改信息</div
                     >
-                    <div>个人中心<i class="iconfont icon-jiantouyou"></i></div>
+                    <div @click="RouterToUser()">个人中心<i class="iconfont icon-jiantouyou"></i></div>
                   </div>
                 </div>
               </div>
@@ -72,8 +72,8 @@
           <div v-if="tab == 'setting'">
             <div class="title">
               <div></div>
-              我的信息</div
-            >
+              我的信息
+            </div>
             <form class="modify-form" action="">
               <!-- 1 -->
               <div>
@@ -208,6 +208,7 @@
 import LoginQueryInfo from '@/components/Login&QueryInfo.vue'
 import tools from '@/js/tools'
 import BeiAn from '@/components/BeiAn.vue'
+import axios from 'axios'
 let app
 export default {
   components: { LoginQueryInfo, BeiAn },
@@ -249,7 +250,28 @@ export default {
       return this.$store.state.loginUser
     },
   },
+  mounted() {
+    if (this.userinfo.isLogin == false) {
+      alert('未登录')
+      app.$router.push('/Login')
+    }
+  },
   methods: {
+    GetRandomImg() {
+      let promise = axios({
+        url: 'https://v.api.aa1.cn/api/api-fj/index.php?aa1=suf7y58th48u935',
+        data: '',
+        method: 'get',
+        headers: { 'Content-Type': 'multipart/form-data;charset=UTF-8' },
+      })
+      promise
+        .then((cb) => {
+          console.log(cb)
+        })
+        .catch((err) => {
+          console.log('错误', err)
+        })
+    },
     GetCode() {
       tools.ajax('/user/auth/updateUserPhone', app.modiPhone, (data) => {
         app.$message.warning(data.message)
@@ -377,12 +399,23 @@ export default {
         this.bottomfont = '很好，很有精神！'
       }
     },
+    //到用户中心
+    RouterToUser() {
+      app.$router.push({
+        path: '/UserDetail',
+        query: {
+          what: 'Myself',
+          username: app.userinfo.tbUser.username,
+        },
+      })
+    },
   },
   created() {
     app = this
     app.score()
     app.getemail()
     app.showModi()
+    app.GetRandomImg()
     if (app.userinfo.isLogin == false) {
       app.$router.push('/login')
     }
@@ -392,4 +425,5 @@ export default {
 </script>
 <style scoped>
 @import '@/css/user/UserView.css';
+@import '@/css/commom.css';
 </style>
