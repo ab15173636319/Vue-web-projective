@@ -1,5 +1,5 @@
 <template>
-  <div style="font-family: 'KaiTi'">
+  <div>
     <!-- <load-view v-if="loading"></load-view> -->
     <login-query-info :top="10" :left="200"></login-query-info>
     <div class="message">

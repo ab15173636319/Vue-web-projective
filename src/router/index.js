@@ -12,11 +12,6 @@ const routes = [
   // component参数是vue文件
   // 列如path是/abc；文件是AbcView.vue
   // 表示地址栏输入服务器地址/abc看到的是AbcView.vue编译后的页面
-  // {
-  //   path: '/',
-  //   name: 'home',
-  //   component: () => import('../views/HomeView.vue'),
-  // },
   {
     path: '/',
     name: 'home',
