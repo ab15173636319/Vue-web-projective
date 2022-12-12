@@ -4,7 +4,7 @@
     <nav class="topChatUserInfo">
       <div>
         <img :src="data.tbUserInfo.img" alt="" />
-        <div>{{ data.tbUser.nickname }}</div>
+        <div @click="ToUserCebter(data.tbUser.username)">{{ data.tbUser.nickname }}</div>
       </div>
     </nav>
     <div class="chatmessage">
@@ -55,6 +55,15 @@ export default {
     },
   },
   methods: {
+    ToUserCebter(username) {
+      this.$router.push({
+        path: '/Jump',
+        query: {
+          what: 'themself',
+          username: username,
+        },
+      })
+    },
     SendChat() {
       this.sendinfo.username = this.username
       tools.ajax('/user/auth/sendMesage', this.sendinfo, (data) => {
@@ -80,10 +89,15 @@ export default {
     },
   },
   created() {
-    console.log(this.userinfo)
+    // console.log(this.$router)
     this.GetChatUserInfo()
     this.GetChatMessage()
     this.ReadMessage()
+  },
+  watch: {
+    data() {
+      this.GetChatMessage()
+    },
   },
 }
 </script>

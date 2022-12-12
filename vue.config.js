@@ -5,5 +5,7 @@ module.exports = defineConfig({
   // 生成环境不需要map文件
   productionSourceMap: !process.env.NODE_ENV === 'production',
   // 服务器虚拟路径
-  publicPath: process.env.NODE_ENV === 'production' ? '/' : '/',
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/vue-message/'
+    : '/'
 })

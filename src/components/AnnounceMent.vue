@@ -14,6 +14,7 @@ export default {
       announce: [
         { value: '可以修改头像啦', key: '1' },
         { value: '可以查看用户信息了', key: '2' },
+        { value: '还存在一些错误，如果发现错误的话会通过首页联系我反馈给我', key: '3' },
       ],
     }
   },

@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import user from '../router/user'
-import lottery from '../router/lottery'
 import mobile from '../router/Mobile'
 Vue.use(VueRouter)
 
@@ -54,11 +53,10 @@ const routes = [
   },
 ]
   .concat(user)
-  .concat(lottery)
   .concat(mobile)
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: 'hash',
   base: process.env.BASE_URL,
   routes,
 })

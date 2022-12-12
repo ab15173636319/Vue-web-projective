@@ -4,7 +4,7 @@
       <el-card style="background-color: #fff">
         <div slot="header">{{ title }}</div>
         <div>
-          <el-form :model="user" v-loading="loading" :rules="rules" ref="login">
+          <el-form :model="user" v-loading="loading" ref="login">
             <el-form-item prop="username">
               <el-input v-model="user.username" placeholder="账号">
                 <i slot="prefix" class="el-input--icon iconfont">&#xe600;</i>

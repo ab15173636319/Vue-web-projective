@@ -5,6 +5,11 @@
         <div slot="header">{{ title }}</div>
         <div>
           <el-form :model="reginfo" v-loading="" ref="reg">
+            <el-form-item prop="nickname">
+              <el-input v-model="reginfo.nickname" placeholder="昵称">
+                <i slot="prefix" class="el-input--icon iconfont">&#xe600;</i>
+              </el-input>
+            </el-form-item>
             <el-form-item prop="username">
               <el-input v-model="reginfo.username" placeholder="账号">
                 <i slot="prefix" class="el-input--icon iconfont">&#xe600;</i>
@@ -36,6 +41,7 @@
 
 <script>
 import BeiAn from '@/components/BeiAn.vue'
+import tools from '@/js/tools'
 // import tools from '../../js/tools'
 let app
 export default {
@@ -44,7 +50,12 @@ export default {
   data() {
     return {
       title: '用户注册',
-      reginfo: {},
+      reginfo: {
+        nickname: '',
+        username: '',
+        password: '',
+        password2: '',
+      },
     }
   },
   methods: {
@@ -53,7 +64,18 @@ export default {
       let value = app.reginfo.password2
       switch (key) {
         case value:
-          alert('密码一致')
+          app.reginfo.password = tools.md5(app.reginfo.password)
+          tools.ajax('/user/auth/reg', app.reginfo, (data) => {
+            if (data.success) {
+              app.$message.success('注册成功，正在跳转登录')
+              setTimeout(() => {
+                app.$router.push('/Login')
+              }, 2000)
+            } else {
+              app.$message.error(data.message)
+            }
+          })
+
           break
 
         default:

@@ -221,9 +221,16 @@ export default {
     },
     // 点赞评论
     praiseComment(umrid) {
-      tools.ajax('/message/supportReply', { umrid: umrid }, () => {
-        this.queryMessage()
-      })
+      if (app.userinfo.isLogin) {
+        tools.ajax('/message/supportReply', { umrid: umrid }, () => {
+          this.queryMessage()
+        })
+      } else {
+        app.$message.error('请先登录，正在跳转登录')
+        setTimeout(() => {
+          app.$router.push('/Login')
+        }, 1500)
+      }
     },
     // 查询留言id
     queryUmid() {
@@ -254,8 +261,10 @@ export default {
           }
         })
       } else {
-        app.LoginProp = true
-        console.log(app.LoginProp)
+        app.$message.error('请先登录，正在跳转登录')
+        setTimeout(() => {
+          app.$router.push('/Login')
+        }, 1500)
       }
     },
   },

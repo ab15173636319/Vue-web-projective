@@ -170,14 +170,21 @@ export default {
       tools.ajax('/message/queryAll', app.messageabout, () => {})
     },
     Addmessage() {
-      app.AddmessageInfo.info = app.html
-      tools.ajax('/message/add', app.AddmessageInfo, (data) => {
-        app.$message.warning(data.message)
-        if (data.success) {
-          app.AddVisible = false
-          app.queryMessage()
-        }
-      })
+      if (app.userinfo.isLogin) {
+        app.AddmessageInfo.info = app.html
+        tools.ajax('/message/add', app.AddmessageInfo, (data) => {
+          app.$message.warning(data.message)
+          if (data.success) {
+            app.AddVisible = false
+            app.queryMessage()
+          }
+        })
+      } else {
+        app.$message.error('请先登录，正在跳转登录')
+        setTimeout(() => {
+          app.$router.push('/Login')
+        }, 1500)
+      }
     },
     onCreated(editor) {
       this.editor = Object.seal(editor) // 一定要用 Object.seal() ，否则会报错
