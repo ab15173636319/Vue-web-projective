@@ -211,7 +211,7 @@
         <div class="Container-right">
           <div>
             <div>个人资料</div>
-            <div @click="tomodiyi()">修改信息</div>
+            <div v-if="LoginUserInfo.tbUser.username == user.username" @click="tomodiyi()">修改信息</div>
           </div>
           <div>
             <div>账号：{{ user.username }}</div>

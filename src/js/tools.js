@@ -4,8 +4,8 @@ import axios from 'axios'
 import spark from 'spark-md5'
 import router from '@/router'
 
-// 后端接口的服务器基础地址
-const SERVER_BASE_URL = 'https://huhuiyu.top/teach_project_service'
+// 后端接口的服务器基础地址/doc.html#/default/%E7%AE%80%E6%98%93%E7%95%99%E8%A8%80%E6%9D%BF/queryAllUsingPOST_8
+const SERVER_BASE_URL = 'https://service.huhuiyu.top/teach_project_service'
 // 本地存储token的名称
 const SERVER_TOKEN_KEY = 'huhuiyu.teach.token'
 

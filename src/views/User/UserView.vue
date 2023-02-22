@@ -69,7 +69,7 @@
             </div>
           </div>
           <!-- setting -->
-          <div v-if="tab == 'setting'">
+          <div class="setting" v-if="tab == 'setting'">
             <div class="title">
               <div></div>
               我的信息
@@ -132,7 +132,7 @@
                   <div v-if="userinfo.tbUserInfo.email == ''">未绑定</div>
                   <div class="ok" v-else>{{ email }}</div>
                 </div>
-                <div v-if="userinfo.tbUserInfo.email == ''" @click="EmalVisible = true">绑定邮箱</div>
+                <div class="modiyiemail" v-if="userinfo.tbUserInfo.email == ''" @click="EmalVisible = true">绑定邮箱</div>
                 <div v-else class="modiyiemail" @click="EmalVisible = true">修改邮箱</div>
               </div>
               <div class="securitymodi">
@@ -145,7 +145,7 @@
                   <div v-if="userinfo.tbUserInfo.phone == ''">未绑定</div>
                   <div class="ok" v-else>{{ phone }}</div>
                 </div>
-                <div v-if="userinfo.tbUserInfo.phone == ''">绑定电话</div>
+                <div class="modiyiemail" v-if="userinfo.tbUserInfo.phone == ''">绑定电话</div>
                 <div v-else class="modiyiemail" @click="PhoneVisible = true">修改电话</div>
               </div>
             </div>
@@ -314,18 +314,18 @@ export default {
         app.selectedFile = file
         console.log('1')
         if ((app.selectedFile.size / (1024 * 1024)).toFixed(2) <= 2) {
-          if (file.type.substr(0, 6) == 'image/') {
-            tools.upload(app.selectedFile, { fileinfo: '头像' }, (data) => {
-              console.log('2')
-              if (data.success) {
-                app.getFileUrl()
-              } else {
-                app.$message.warning(data.message)
-              }
-            })
-          } else {
-            app.imgdata = ''
-          }
+          // if (file.type.substr(0, 6) == 'image/') {
+          tools.upload(app.selectedFile, { fileinfo: '头像' }, (data) => {
+            console.log('2')
+            if (data.success) {
+              app.getFileUrl()
+            } else {
+              app.$message.warning(data.message)
+            }
+          })
+          // } else {
+          //   app.imgdata = ''
+          // }
         } else {
           app.$message.warning('大小不能超过2mb')
         }

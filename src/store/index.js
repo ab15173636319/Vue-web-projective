@@ -57,7 +57,7 @@ export default new Vuex.Store({
   actions: {
     updateUserInfo({ commit }) {
       tools.ajax('/user/auth/getUserInfo', {}, (data) => {
-        console.log('进入')
+        console.log(data)
         let user = { isLogin: data.success }
         if (data.success) {
           user.tbUser = data.tbUser

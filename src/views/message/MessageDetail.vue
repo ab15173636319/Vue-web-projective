@@ -1,6 +1,5 @@
 <template>
   <div>
-    <load-view v-if="loading"></load-view>
     <login-query-info :LoginIsVisible="LoginProp"></login-query-info>
     <div class="Back">
       <i @click="$router.back()" class="iconfont icon-fanhui1"></i>
@@ -76,7 +75,7 @@
           <span @click="orderBy = 2" :class="{ active: orderBy == 2 }">热度</span>
         </div>
       </div>
-      <div class="AddComment"> <input type="text" placeholder="快来沙发╭(′▽`)╭(′▽`)╯" /><button>评论</button> </div>
+      <div class="AddComment"> <input type="text" v-model="replyInfo" placeholder="快来沙发╭(′▽`)╭(′▽`)╯" /><button @click="Reply()">评论</button> </div>
       <div class="nocomment" v-if="CommomVisible">还没有人评论哦，快来沙发吧(づ￣ 3￣)づ </div>
       <div v-else class="comment-body" v-for="c in commentlist" :key="c.umrid">
         <div>
@@ -133,12 +132,11 @@
 
 <script>
 import tools from '@/js/tools'
-import LoadView from '@/components/LoadView.vue'
 import LoginQueryInfo from '@/components/Login&QueryInfo.vue'
 import BeiAn from '@/components/BeiAn.vue'
 let app
 export default {
-  components: { LoadView, LoginQueryInfo, BeiAn },
+  components: { LoginQueryInfo, BeiAn },
   name: 'MessageDetail',
   data() {
     return {
@@ -161,6 +159,7 @@ export default {
       LoginProp: false,
       CommomVisible: false,
       orderBy: 1,
+      replyInfo: '',
     }
   },
   computed: {
@@ -169,6 +168,25 @@ export default {
     },
   },
   methods: {
+    // 评论
+    Reply() {
+      tools.ajax('/message/addReply', { umid: app.umid, info: app.replyInfo }, (data) => {
+        console.log(data.message)
+        if (data.success) {
+          tools.ajax('/message/queryDetail', { umid: app.umid, pageNumber: app.page.pageNumber, pageSize: 5, orderBy: app.orderBy }, (data) => {
+            app.info = data.info
+            app.user = data.info.user
+            app.commentlist = data.list
+            if (app.commentlist.length == 0) {
+              app.CommomVisible = true
+            }
+            app.page = data.page
+            app.userOtherInfo = app.info.userOtherInfo
+            app.userInfo = app.info.userInfo
+          })
+        }
+      })
+    },
     // 进入用户中心
     ToUserCebter() {
       app.$router.push({

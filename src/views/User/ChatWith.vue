@@ -3,8 +3,8 @@
     <login-query-info></login-query-info>
     <nav class="topChatUserInfo">
       <div>
-        <img :src="data.tbUserInfo.img" alt="" />
-        <div @click="ToUserCebter(data.tbUser.username)">{{ data.tbUser.nickname }}</div>
+        <img :src="chatuserinfo.img" alt="" />
+        <div @click="ToUserCebter(data.tbUser.username)">{{ chatuserinfo.nickname }}</div>
       </div>
     </nav>
     <div class="chatmessage">
@@ -12,7 +12,8 @@
         <div class="chatlist" v-for="c in chatlist" :key="c">
           <div>
             <div class="chatuserinfo">
-              <img :src="data.tbUserInfo.img" alt="" />
+              <img v-if="userinfo.tbUser.username == c.from" :src="userinfo.tbUserInfo.img" alt="" />
+              <img v-else :src="data.tbUserInfo.img" alt="" />
               <div>{{ c.from }}</div>
             </div>
             <div class="chatinfo" :class="{ active: c.from == userinfo.tbUser.username }">{{ c.info }}</div>
@@ -47,6 +48,10 @@ export default {
         username: '',
         info: '',
       },
+      chatuserinfo: {
+        img: '',
+        nickname: '',
+      },
     }
   },
   computed: {
@@ -76,6 +81,8 @@ export default {
     GetChatUserInfo() {
       tools.ajax('/user/auth/getUserInfoByName', { username: this.username }, (data) => {
         this.data = data
+        this.chatuserinfo.nickname = data.tbUser.nickname
+        this.chatuserinfo.img = data.tbUserInfo.img
       })
     },
     GetChatMessage() {

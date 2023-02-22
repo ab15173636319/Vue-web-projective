@@ -13,42 +13,61 @@
   background: linear-gradient(45deg, var(--colorA), var(--colorC), var(--colorF));
   animation: change 10s infinite linear;
 }
+
 @property --colorA {
   syntax: '<color>';
   inherits: false;
   initial-value: fuchsia;
 }
+
 @property --colorC {
   syntax: '<color>';
   inherits: false;
   initial-value: #f79188;
 }
+
 @property --colorF {
   syntax: '<color>';
   inherits: false;
   initial-value: red;
 }
+
 @keyframes change {
   20% {
     --colorA: red;
     --colorC: #a93ee0;
     --colorF: fuchsia;
   }
+
   40% {
     --colorA: #ff3c41;
     --colorC: #e228a0;
     --colorF: #2e4c96;
   }
+
   60% {
     --colorA: orange;
     --colorC: green;
     --colorF: teal;
   }
+
   80% {
     --colorA: #ae63e4;
     --colorC: #0ebeff;
     --colorF: #efc371;
   }
+}
+
+.topbar .addannounce {
+  /* border: 1px solid ; */
+  padding: 15px 10px;
+  cursor: pointer;
+  box-shadow: 1px 1px 3px;
+  border-radius: 10px;
+}
+
+.topbar .addannounce:hover {
+  box-shadow: 1px 1px 10px;
 }
 
 .topbar .addmessage {
@@ -99,8 +118,7 @@
   animation: User 0.3s;
 }
 
-.userInfoDiv.active {
-}
+.userInfoDiv.active {}
 
 @keyframes User {
   0% {
@@ -119,12 +137,14 @@
   font-weight: bold;
   color: #e67e22;
 }
+
 .userInfoDiv .userInfoDiv-fans {
   padding: 10px 0;
   display: flex;
   justify-content: space-around;
   width: 100%;
 }
+
 .userInfoDiv .userInfoDiv-fans div {
   cursor: pointer;
   font-size: 1rem;
@@ -134,6 +154,7 @@
   align-items: center;
   color: #e67e22;
 }
+
 .userInfoDiv .userInfoDiv-fans div:nth-child(2) {
   color: pink;
 }
@@ -155,39 +176,49 @@
   0% {
     top: 0px;
   }
+
   10% {
     top: -3px;
   }
+
   20% {
     top: -6px;
   }
+
   30% {
     top: -9px;
   }
+
   40% {
     top: -12px;
     transform: rotate(10deg);
   }
+
   50% {
     top: -15px;
     transform: rotate(20deg);
   }
+
   60% {
     top: -18px;
     transform: rotate(10deg);
   }
+
   70% {
     top: -21px;
     transform: rotate(0deg);
   }
+
   80% {
     top: -24px;
     transform: rotate(-10deg);
   }
+
   90% {
     top: -27px;
     transform: rotate(-20deg);
   }
+
   100% {
     top: -30px;
     transform: rotate(-10deg);
@@ -197,14 +228,19 @@
 /* 放大缩小 */
 @keyframes scaleDraw {
   0% {
-    transform: scale(1); /*开始为原始大小*/
+    transform: scale(1);
+    /*开始为原始大小*/
   }
+
   25% {
-    transform: scale(1.3); /*放大1.1倍*/
+    transform: scale(1.3);
+    /*放大1.1倍*/
   }
+
   50% {
     transform: scale(1);
   }
+
   75% {
     transform: scale(1.3);
   }
@@ -225,6 +261,7 @@
   justify-content: space-between;
   padding: 10px 10px;
 }
+
 .userInfoDiv-usercenter .userInfoDiv-user-center:hover {
   background-color: rgba(227, 229, 231, 1);
   border-radius: 5px;
@@ -250,14 +287,14 @@
   align-items: center;
 }
 
-.messagemeun > div {
+.messagemeun>div {
   width: 750px;
   padding: 10px;
   display: flex;
   justify-content: right;
 }
 
-.messagemeun > div i {
+.messagemeun>div i {
   color: #fff;
   font-weight: bold;
   cursor: pointer;
@@ -278,6 +315,7 @@
   -webkit-animation: scale-up-top 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
   animation: scale-up-top 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 }
+
 @-webkit-keyframes scale-up-top {
   0% {
     -webkit-transform: scale(0.5);
@@ -285,6 +323,7 @@
     -webkit-transform-origin: 50% 0%;
     transform-origin: 50% 0%;
   }
+
   100% {
     -webkit-transform: scale(1);
     transform: scale(1);
@@ -292,6 +331,7 @@
     transform-origin: 50% 0%;
   }
 }
+
 @keyframes scale-up-top {
   0% {
     -webkit-transform: scale(0.5);
@@ -299,6 +339,7 @@
     -webkit-transform-origin: 50% 0%;
     transform-origin: 50% 0%;
   }
+
   100% {
     -webkit-transform: scale(1);
     transform: scale(1);
@@ -307,11 +348,11 @@
   }
 }
 
-.messagemeun form > div {
+.messagemeun form>div {
   width: 700px;
 }
 
-.messagemeun form > div textarea {
+.messagemeun form>div textarea {
   width: 100%;
   height: 328px;
   resize: none;
@@ -323,7 +364,8 @@
   /* padding-left: 16px; */
   /* padding: 16px 16px 0 0; */
 }
-.messagemeun form > div input {
+
+.messagemeun form>div input {
   margin-top: 10px;
   width: 100%;
   height: 50px;

@@ -19,10 +19,10 @@
               >
             </div>
             <div class="userInfoDiv-usercenter">
-              <div class="userInfoDiv-user-center" @click="routerTouser()">用户中心<i class="fa-solid fa-chevron-right"></i></div>
+              <div class="userInfoDiv-user-center" @click="routerTouser()">用户中心<i class="iconfont icon-jiantouyou"></i></div>
             </div>
             <div class="userInfoDiv-usercenter">
-              <div class="userInfoDiv-user-center" @click="routerToFriend()">社交<i class="fa-solid fa-chevron-right"></i></div>
+              <div class="userInfoDiv-user-center" @click="routerToFriend()">社交<i class="iconfont icon-jiantouyou"></i></div>
             </div>
             <div class="logout"><el-button @click="exite()" type="danger">退出登录</el-button></div>
           </div>
@@ -48,6 +48,7 @@
         </div>
       </form>
     </div>
+
     <!-- 登录弹出框 -->
     <el-dialog width="400px" :close-on-press-escape="false" :close-on-click-modal="false" title="登录" :visible.sync="LoginVisible">
       <el-form :rules="rules" :model="login" ref="login">
@@ -58,7 +59,7 @@
           <el-input type="password" v-model="login.password"></el-input>
         </el-form-item>
         <el-form-item>
-          <a href="/Reg">我要创建一个账号</a>
+          <a @click="$router.push('/Reg')" href="javascript:void(0)">我要创建一个账号</a>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

@@ -36,33 +36,38 @@
   background-color: #fff;
   /* background-color: aquamarine; */
 }
-.UserInfoInner-left div:nth-child(2) > div {
+
+.UserInfoInner-left div:nth-child(2)>div {
   display: flex;
   align-items: center;
   /* justify-content: space-around; */
   /* color: red; */
 }
-.UserInfoInner-left div:nth-child(2) > div i {
+
+.UserInfoInner-left div:nth-child(2)>div i {
   font-style: normal;
 }
-.UserInfoInner-left div:nth-child(2) > div i:nth-child(1) {
+
+.UserInfoInner-left div:nth-child(2)>div i:nth-child(1) {
   font-style: normal;
   margin: 0 20px;
 }
 
-.UserInfoInner-left div:nth-child(2) > div,
+.UserInfoInner-left div:nth-child(2)>div,
 .UserInfoInner-left-title,
 .UserInfoInner-left-foot {
   padding: 20px 0;
   text-align: center;
   background-color: rgb(250, 250, 250);
 }
-.UserInfoInner-left div:nth-child(2) > div:hover,
+
+.UserInfoInner-left div:nth-child(2)>div:hover,
 .UserInfoInner-left-foot:hover {
   background-color: rgb(225, 228, 234);
   cursor: pointer;
 }
-.UserInfoInner-left div:nth-child(2) > div.active,
+
+.UserInfoInner-left div:nth-child(2)>div.active,
 .UserInfoInner-left-title.active,
 .UserInfoInner-left-foot.active {
   color: #fff;
@@ -141,7 +146,7 @@
   border-radius: 6px;
 }
 
-.home-name > div:nth-child(1) {
+.home-name>div:nth-child(1) {
   margin-left: 40px;
   font-size: 1.5rem;
   font-weight: bold;
@@ -162,7 +167,7 @@
   background-color: rgb(118, 116, 116);
 }
 
-.title {
+.setting .title {
   margin-top: 20px;
   width: 100%;
   font-size: 16px;
@@ -195,7 +200,7 @@
   padding: 5px;
 }
 
-.modify-form div > div:nth-child(1) {
+.modify-form div>div:nth-child(1) {
   /* background-color: aqua; */
   width: 100px;
   display: flex;
@@ -211,6 +216,7 @@
   padding: 0 16px;
   color: #333;
 }
+
 .modify-form div:nth-child(1) input:focus {
   outline: rgba(55, 66, 250, 1) 1px solid;
 }
@@ -247,6 +253,7 @@
   /* border: 1px solid #333; */
   align-items: center;
 }
+
 .modify-form div:nth-child(4) div:nth-child(2) span {
   padding: 5px 10px;
   height: 20px;
@@ -259,10 +266,12 @@
   border-radius: 5px;
   border: 1px solid rgba(0, 161, 214, 1);
 }
+
 .modify-form div:nth-child(4) div:nth-child(2) span:hover {
   background-color: rgba(0, 161, 214, 1);
   color: #fff;
 }
+
 .modify-form div:nth-child(4) div:nth-child(2) span.active {
   background-color: rgba(0, 161, 214, 1);
   color: #fff;
@@ -281,6 +290,7 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
 .modify-form div:nth-child(5) span:hover {
   background-color: rgba(0, 181, 229, 1);
 }
@@ -301,7 +311,7 @@
   margin-top: 50px;
 }
 
-.face > div:nth-child(2) {
+.face>div:nth-child(2) {
   padding: 10px 20px;
   border-radius: 5px;
   font-weight: 700;
@@ -309,7 +319,7 @@
   background-color: #1e88c7;
 }
 
-.face > div:nth-child(2):hover {
+.face>div:nth-child(2):hover {
   background-color: #00a1d6;
   color: #fff;
 }
@@ -327,6 +337,7 @@
   text-indent: 0;
   line-height: 20px;
 }
+
 .file input {
   cursor: pointer;
   position: absolute;
@@ -335,6 +346,7 @@
   top: 0;
   opacity: 0;
 }
+
 .file:hover {
   background: #aadffd;
   border-color: #78c3f3;
@@ -399,7 +411,7 @@
   margin-top: 50px;
 }
 
-.securitymodi > div:nth-child(1) {
+.securitymodi>div:nth-child(1) {
   font-size: 14px;
   color: #222;
   /* font-weight: bold; */
@@ -409,6 +421,7 @@
   color: green;
   font-size: 12px;
 }
+
 .security .no {
   color: #fb7299;
   font-size: 12px;
@@ -419,6 +432,7 @@
   font-size: 12px;
   cursor: pointer;
 }
+
 .modiyiemail:hover {
   color: rgba(0, 181, 229, 1);
 }
@@ -427,7 +441,8 @@
   display: flex;
   align-items: center;
 }
-.modiElmail > div {
+
+.modiElmail>div {
   margin: 20px 0;
 }
 
