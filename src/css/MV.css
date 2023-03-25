@@ -1,0 +1,16 @@
+.addAnn {
+  background-color: #353535;
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  z-index: 99999999;
+}
+
+.addAnn>div {
+  margin-top: 15%;
+  width: 400px;
+}

@@ -8,6 +8,7 @@ import router from '@/router'
 const SERVER_BASE_URL = 'https://service.huhuiyu.top/teach_project_service'
 // 本地存储token的名称
 const SERVER_TOKEN_KEY = 'huhuiyu.teach.token'
+// 本地存储开发者key的名称
 
 // 保存服务器token信息
 function saveToken(data) {

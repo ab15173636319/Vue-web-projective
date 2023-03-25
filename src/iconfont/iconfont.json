@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1305090",
+      "name": "文件",
+      "font_class": "wenjian",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    },
+    {
+      "icon_id": "3427871",
+      "name": "浏览量",
+      "font_class": "icon-",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "5388009",
+      "name": "云上传_o",
+      "font_class": "yunshangchuan_o",
+      "unicode": "ebb3",
+      "unicode_decimal": 60339
+    },
+    {
+      "icon_id": "5388010",
+      "name": "云下载_o",
+      "font_class": "yunxiazai_o",
+      "unicode": "ebb4",
+      "unicode_decimal": 60340
+    },
+    {
       "icon_id": "37274",
       "name": "天猫提示-公告",
       "font_class": "gonggao",

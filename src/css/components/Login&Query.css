@@ -274,8 +274,8 @@
 }
 
 .messagemeun {
-  position: absolute;
-  z-index: 101;
+  position: fixed;
+  z-index: 9999;
   width: 100vw;
   height: 100vh;
   top: 0px;

@@ -34,13 +34,7 @@
           <i class="display">屏蔽</i>
         </div>
         <div>
-          <i
-            @click="
-              JBVisible = true
-              JBumid = info.umid
-            "
-            class="iconfont icon-chakantiezigengduojubao hover"
-          ></i>
+          <i @click="JBVisible = trueJBumid = info.umid" class="iconfont icon-chakantiezigengduojubao hover"></i>
           <i class="display">举报</i>
         </div>
         <div>
@@ -96,14 +90,7 @@
                 <i class="display">屏蔽</i>
               </div>
               <div>
-                <i
-                  @click="
-                    JBCVisible = true
-                    JBcumrid = c.umrid
-                  "
-                  class="iconfont hover"
-                  >&#xe662;</i
-                >
+                <i @click="JB(c.urmid)" class="iconfont hover">&#xe662;</i>
                 <i class="display">举报</i>
               </div>
             </div>
@@ -170,22 +157,26 @@ export default {
   methods: {
     // 评论
     Reply() {
-      tools.ajax('/message/addReply', { umid: app.umid, info: app.replyInfo }, (data) => {
-        console.log(data.message)
-        if (data.success) {
-          tools.ajax('/message/queryDetail', { umid: app.umid, pageNumber: app.page.pageNumber, pageSize: 5, orderBy: app.orderBy }, (data) => {
-            app.info = data.info
-            app.user = data.info.user
-            app.commentlist = data.list
-            if (app.commentlist.length == 0) {
-              app.CommomVisible = true
-            }
-            app.page = data.page
-            app.userOtherInfo = app.info.userOtherInfo
-            app.userInfo = app.info.userInfo
-          })
-        }
-      })
+      if (this.userinfo.isLogin) {
+        tools.ajax('/message/addReply', { umid: app.umid, info: app.replyInfo }, (data) => {
+          console.log(data.message)
+          if (data.success) {
+            tools.ajax('/message/queryDetail', { umid: app.umid, pageNumber: app.page.pageNumber, pageSize: 5, orderBy: app.orderBy }, (data) => {
+              app.info = data.info
+              app.user = data.info.user
+              app.commentlist = data.list
+              if (app.commentlist.length == 0) {
+                app.CommomVisible = true
+              }
+              app.page = data.page
+              app.userOtherInfo = app.info.userOtherInfo
+              app.userInfo = app.info.userInfo
+            })
+          }
+        })
+      } else {
+        this.$message.error('请先登录')
+      }
     },
     // 进入用户中心
     ToUserCebter() {
@@ -205,49 +196,66 @@ export default {
     },
     // 关注用户
     followUser(username) {
-      tools.ajax('/message/followUser', { username: username }, () => {
-        app.queryMessage()
-      })
+      if (this.userinfo.isLogin) {
+        tools.ajax('/message/followUser', { username: username }, () => {
+          app.queryMessage()
+        })
+      } else {
+        this.$message.error('请先登录')
+      }
     },
     // 举报评论
     JBcommont() {
-      tools.ajax('/message/examineReply', { info: app.JBCinfo, umrid: app.JBcumrid }, (data) => {
-        if (data.success) {
-          app.JBCVisible = false
-          app.queryMessage()
-        }
-        app.$message.warning(data.message)
-      })
-    },
-    // 举报留言
-    JBmessage() {
-      app.$message.success(app.JBumid)
-      tools.ajax(
-        '/message/examine',
-        {
-          info: app.JBinfo,
-          umid: app.JBumid,
-        },
-        (data) => {
+      if (this.userinfo.isLogin) {
+        tools.ajax('/message/examineReply', { info: app.JBCinfo, umrid: app.JBcumrid }, (data) => {
           if (data.success) {
-            app.JBVisible = false
+            app.JBCVisible = false
             app.queryMessage()
           }
           app.$message.warning(data.message)
-        }
-      )
+        })
+      } else {
+        this.$message.error('请先登录')
+      }
+    },
+    JB(umrid) {
+      if (this.userinfo.isLogin) {
+        app.JBCVisible = true
+        app.JBcumrid = umrid
+      } else {
+        this.$message.error('请先登录')
+      }
+    },
+    // 举报留言
+    JBmessage() {
+      if (this.userinfo.isLogin) {
+        app.$message.success(app.JBumid)
+        tools.ajax(
+          '/message/examine',
+          {
+            info: app.JBinfo,
+            umid: app.JBumid,
+          },
+          (data) => {
+            if (data.success) {
+              app.JBVisible = false
+              app.queryMessage()
+            }
+            app.$message.warning(data.message)
+          }
+        )
+      } else {
+        this.$message.error('请先登录')
+      }
     },
     // 点赞评论
     praiseComment(umrid) {
-      if (app.userinfo.isLogin) {
+      if (this.userinfo.isLogin) {
         tools.ajax('/message/supportReply', { umrid: umrid }, () => {
           this.queryMessage()
         })
       } else {
-        app.$message.error('请先登录，正在跳转登录')
-        setTimeout(() => {
-          app.$router.push('/Login')
-        }, 1500)
+        this.$message.error('请先登录')
       }
     },
     // 查询留言id
@@ -270,7 +278,7 @@ export default {
     },
     // 给留言点赞
     PriseForMessage(umid) {
-      if (app.userinfo.isLogin == true) {
+      if (app.userinfo.isLogin) {
         tools.ajax('/message/support', { umid: umid }, (date) => {
           if (date.success) {
             app.queryMessage()
@@ -279,10 +287,7 @@ export default {
           }
         })
       } else {
-        app.$message.error('请先登录，正在跳转登录')
-        setTimeout(() => {
-          app.$router.push('/Login')
-        }, 1500)
+        app.$message.error('请先登录')
       }
     },
   },

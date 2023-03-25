@@ -1,0 +1,33 @@
+body {
+  background-color: #b8b2b2;
+}
+
+.oss-top {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #fff;
+  padding: 1.5rem 0;
+}
+
+.file_icon {
+  /* font-size: 3rem; */
+  color: rgb(135, 206, 250);
+}
+
+.oss-option {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background: linear-gradient(rgb(255, 190, 121), rgb(207, 190, 104));
+  padding: 1.5rem 0;
+}
+
+.oss-option .el-input,
+.oss-option .el-select {
+  width: 250px;
+  margin: 0 10px;
+}

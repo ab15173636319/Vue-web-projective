@@ -8,15 +8,9 @@
           <div v-if="userVisible" class="userInfoDiv">
             <div class="userInfoDiv-title">{{ userinfo.tbUser.nickname }}</div>
             <div class="userInfoDiv-fans">
-              <div @click="ToUserCebter"
-                ><i class="iconfont icon-youxiang"></i><i>动态({{ userinfo.userOtherInfo.supporteMessage + userinfo.userOtherInfo.supporteReply }})</i></div
-              >
-              <div @click="ToUserCebter"
-                ><i class="iconfont icon-ganxingquzhiwei"></i><i>粉丝({{ userinfo.userOtherInfo.followMe }})</i></div
-              >
-              <div @click="ToUserCebter"
-                ><i class="iconfont icon-icon-fensi"></i><i>关注({{ userinfo.userOtherInfo.follow }})</i></div
-              >
+              <div @click="ToUserCebter"><i class="iconfont icon-youxiang"></i><i>动态</i></div>
+              <div @click="ToUserCebter"><i class="iconfont icon-ganxingquzhiwei"></i><i>粉丝</i></div>
+              <div @click="ToUserCebter"><i class="iconfont·icon-icon-fensi"></i><i>关注</i></div>
             </div>
             <div class="userInfoDiv-usercenter">
               <div class="userInfoDiv-user-center" @click="routerTouser()">用户中心<i class="iconfont icon-jiantouyou"></i></div>
@@ -24,13 +18,19 @@
             <div class="userInfoDiv-usercenter">
               <div class="userInfoDiv-user-center" @click="routerToFriend()">社交<i class="iconfont icon-jiantouyou"></i></div>
             </div>
+            <!-- <div class="userInfoDiv-usercenter" v-if="userinfo.tbUser.username == 'a00000000'">
+              <div class="userInfoDiv-user-center" @click="$router.push('/ossmain')">oss管理系统<i class="iconfont icon-jiantouyou"></i></div>
+            </div>
+            <div class="userInfoDiv-usercenter" v-if="userinfo.tbUser.username == 'a00000000'">
+              <div class="userInfoDiv-user-center" @click="$router.push('/MessageManage')">留言板后台管理<i class="iconfont icon-jiantouyou"></i></div>
+            </div> -->
             <div class="logout"><el-button @click="exite()" type="danger">退出登录</el-button></div>
           </div>
         </div>
       </div>
       <div v-else class="user-title logout"><el-button @click="LoginVisible = true">登录</el-button></div>
       <!-- <button @click="$router.push('/lottery')">抽奖</button> -->
-      <div class="addmessage" @click="AddVisible = true"><i class="iconfont icon-add"></i>发布留言</div>
+      <div class="addmessage" @click="ChangeAddVisible()"><i class="iconfont icon-add"></i>发布留言</div>
     </div>
     <!-- 添加留言弹出框 -->
     <div class="messagemeun" v-if="AddVisible">
@@ -127,7 +127,6 @@ export default {
       return this.$store.state.loginUser
     },
   },
-  mounted() {},
   beforeDestroy() {
     const editor = this.editor
     if (editor == null) return
@@ -140,6 +139,10 @@ export default {
     },
   },
   methods: {
+    //是否能打开添加留言组件
+    ChangeAddVisible() {
+      this.userinfo.isLogin ? (this.AddVisible = true) : (this.$message.error('请先登录'), (this.AddVisible = false), (this.LoginVisible = true))
+    },
     // 进入社交页
     routerToFriend() {
       app.$router.push('/friend')
@@ -168,7 +171,7 @@ export default {
       }, 500)
     },
     queryMessage() {
-      tools.ajax('/message/queryAll', app.messageabout, () => {})
+      tools.ajax('/message/queryAll', app.messageabout)
     },
     Addmessage() {
       if (app.userinfo.isLogin) {
@@ -236,12 +239,8 @@ export default {
     },
   },
   watch: {
-    LoginIsVisible(v) {
-      app.LoginVisible = v
-    },
-    LoginVisible(c) {
-      console.log()
-      console.log('变了', c, this.LoginIsVisible)
+    AddVisible() {
+      console.log('1')
     },
   },
   created() {

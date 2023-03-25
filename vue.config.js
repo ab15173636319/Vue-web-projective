@@ -12,11 +12,4 @@ module.exports = defineConfig({
   //   ? '/vue-message/'
   //   : './'
   publicPath: './',
-  devServer: {
-    // transpileDependencies:true,
-    historyApiFallback: true,
-    allowedHosts: 'all',
-    host: '127.0.0.1',
-    port: 9727,
-  }
 })

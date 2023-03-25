@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import user from '../router/user'
 import mobile from '../router/Mobile'
+import oss from '../router/oss'
 Vue.use(VueRouter)
 
 const routes = [
@@ -51,12 +52,23 @@ const routes = [
     name: 'home',
     component: () => import('../views/message/AddMessage.vue'),
   },
+  {
+    path: '/Manage',
+    name: 'home',
+    component: () => import('../views/ManageView.vue'),
+  },
+  {
+    path: '/MessageManage',
+    name: 'home',
+    component: () => import('../views/messageManage/ManageView.vue'),
+  },
 ]
   .concat(user)
   .concat(mobile)
+  .concat(oss)
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: 'hash',
   base: process.env.BASE_URL,
   routes,
 })
