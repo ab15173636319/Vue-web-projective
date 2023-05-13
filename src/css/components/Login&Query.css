@@ -108,6 +108,7 @@
 .userInfoDiv {
   position: absolute;
   top: 54px;
+  /* opacity: 0; */
   width: 300px;
   height: auto;
   border-radius: 10px;
@@ -115,18 +116,21 @@
   background-color: #fff;
   box-shadow: 1px 1px 5px #000;
   transform-origin: top center;
-  animation: User 0.3s;
+  transform: scale(1, auto);
+  animation: User 0.2s linear;
 }
-
-.userInfoDiv.active {}
 
 @keyframes User {
   0% {
     transform: scale(1, 0);
+    /* top: 44px;
+    opacity: 0; */
   }
 
   100% {
     transform: scale(1, auto);
+    /* top: 54px;
+    opacity: 1; */
   }
 }
 
@@ -287,14 +291,14 @@
   align-items: center;
 }
 
-.messagemeun>div {
+.messagemeun > div {
   width: 750px;
   padding: 10px;
   display: flex;
   justify-content: right;
 }
 
-.messagemeun>div i {
+.messagemeun > div i {
   color: #fff;
   font-weight: bold;
   cursor: pointer;
@@ -348,11 +352,11 @@
   }
 }
 
-.messagemeun form>div {
+.messagemeun form > div {
   width: 700px;
 }
 
-.messagemeun form>div textarea {
+.messagemeun form > div textarea {
   width: 100%;
   height: 328px;
   resize: none;
@@ -365,7 +369,7 @@
   /* padding: 16px 16px 0 0; */
 }
 
-.messagemeun form>div input {
+.messagemeun form > div input {
   margin-top: 10px;
   width: 100%;
   height: 50px;

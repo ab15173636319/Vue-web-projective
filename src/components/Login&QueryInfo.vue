@@ -5,7 +5,7 @@
         <img v-if="userinfo.tbUserInfo.img" :src="userinfo.tbUserInfo.img" alt="" />
         <img v-else src="https://pic3.zhimg.com/v2-83296272d2431fd53e17bef56652cdc1_r.jpg?source=1940ef5c" alt="" />
         <div class="userInfoDivOut">
-          <div v-if="userVisible" class="userInfoDiv">
+          <div class="userInfoDiv" v-if="userVisible">
             <div class="userInfoDiv-title">{{ userinfo.tbUser.nickname }}</div>
             <div class="userInfoDiv-fans">
               <div @click="ToUserCebter"><i class="iconfont icon-youxiang"></i><i>动态</i></div>
@@ -20,10 +20,10 @@
             </div>
             <!-- <div class="userInfoDiv-usercenter" v-if="userinfo.tbUser.username == 'a00000000'">
               <div class="userInfoDiv-user-center" @click="$router.push('/ossmain')">oss管理系统<i class="iconfont icon-jiantouyou"></i></div>
-            </div>
+            </div> -->
             <div class="userInfoDiv-usercenter" v-if="userinfo.tbUser.username == 'a00000000'">
               <div class="userInfoDiv-user-center" @click="$router.push('/MessageManage')">留言板后台管理<i class="iconfont icon-jiantouyou"></i></div>
-            </div> -->
+            </div>
             <div class="logout"><el-button @click="exite()" type="danger">退出登录</el-button></div>
           </div>
         </div>
@@ -162,13 +162,13 @@ export default {
       setTimeout(() => {
         app.userVisible = true
         console.log(app.userVisible)
-      }, 500)
+      }, 100)
     },
     noDisplayUser() {
       setTimeout(() => {
         app.userVisible = false
         console.log(app.userVisible)
-      }, 500)
+      }, 200)
     },
     queryMessage() {
       tools.ajax('/message/queryAll', app.messageabout)
@@ -184,10 +184,10 @@ export default {
           }
         })
       } else {
-        app.$message.error('请先登录，正在跳转登录')
-        setTimeout(() => {
-          app.$router.push('/Login')
-        }, 1500)
+        app.$message.error('请先登录')
+        // setTimeout(() => {
+        //   app.$router.push('/Login')
+        // }, 1500)
       }
     },
     onCreated(editor) {

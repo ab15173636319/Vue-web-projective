@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+}
+
+.left {
+  z-index: 1000;
+  flex: 1;
+  height: 100vh;
+  background-color: #fff;
+}
+
+.right {
+  flex: 6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#main {
+  width: 800px;
+  height: 400px;
+}
